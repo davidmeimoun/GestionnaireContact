@@ -1,0 +1,42 @@
+CREATE USER SA PASSWORD "" ADMIN
+/*C1*/SET SCHEMA PUBLIC
+CONNECT USER SA
+DISCONNECT
+/*C2*/SET SCHEMA PUBLIC
+CONNECT USER SA
+SET AUTOCOMMIT FALSE
+SET AUTOCOMMIT TRUE
+\u000a    create table address_table (\u000a        ID_ADDRESS bigint not null,\u000a        STREET varchar(255),\u000a        CITY varchar(255),\u000a        ZIP varchar(255),\u000a        COUNTRY varchar(255),\u000a        primary key (ID_ADDRESS)\u000a    )
+\u000a    create table contact_table (\u000a        ID_CONTACT bigint not null,\u000a        FIRSTNAME varchar(255),\u000a        LASTNAME varchar(255),\u000a        EMAIL varchar(255),\u000a        ID_ADDRESS bigint,\u000a        primary key (ID_CONTACT)\u000a    )
+\u000a    create table contactgroup_table (\u000a        ID_CONTACTGROUP bigint not null,\u000a        GROUPNAME varchar(255),\u000a        primary key (ID_CONTACTGROUP)\u000a    )
+\u000a    create table contactsbooks_table (\u000a        ID_CONTACT bigint not null,\u000a        ID_CONTACTGROUP bigint not null,\u000a        primary key (ID_CONTACT, ID_CONTACTGROUP)\u000a    )
+\u000a    create table entreprise_table (\u000a        ID_CONTACT bigint not null,\u000a        NUMSIRET integer,\u000a        primary key (ID_CONTACT)\u000a    )
+\u000a    create table phonenumber_table (\u000a        ID_PHONENUMBER bigint not null,\u000a        PHONEKIND varchar(255),\u000a        PHONENUMBER varchar(255),\u000a        ID_CONTACT bigint,\u000a        primary key (ID_PHONENUMBER)\u000a    )
+\u000a    alter table contact_table \u000a        add constraint UK_a47xdycp36xqlvrf9sp5gnd2d  unique (FIRSTNAME, LASTNAME)
+\u000a    alter table contact_table \u000a        add constraint UK_q3mgt7xblkfq0kf3nsk4sfhoh  unique (ID_ADDRESS)
+\u000a    alter table entreprise_table \u000a        add constraint UK_ejwpcnkh8hbfi4kgchict0hxa  unique (NUMSIRET)
+\u000a    alter table contact_table \u000a        add constraint FK_q3mgt7xblkfq0kf3nsk4sfhoh \u000a        foreign key (ID_ADDRESS) \u000a        references address_table
+\u000a    alter table contactsbooks_table \u000a        add constraint FK_ggaxsg6wnm8arkthnu7ru4ah5 \u000a        foreign key (ID_CONTACTGROUP) \u000a        references contactgroup_table
+\u000a    alter table contactsbooks_table \u000a        add constraint FK_l1wldg0n8c813y1bs6puw12nw \u000a        foreign key (ID_CONTACT) \u000a        references contact_table
+\u000a    alter table entreprise_table \u000a        add constraint FK_gpynbyprhv1529g6iesn71fgw \u000a        foreign key (ID_CONTACT) \u000a        references contact_table
+\u000a    alter table phonenumber_table \u000a        add constraint FK_97s060egk8w7ls1v0fq1ppd5k \u000a        foreign key (ID_CONTACT) \u000a        references contact_table
+SET AUTOCOMMIT FALSE
+INSERT INTO ADDRESS_TABLE VALUES(1,'21 place charcot','Sarcelles','95200','France')
+INSERT INTO CONTACT_TABLE VALUES(1,'David','Meimoun','david.95200@live.fr',1)
+INSERT INTO PHONENUMBER_TABLE VALUES(1,'mobile','0637479374',NULL)
+COMMIT
+/*C3*/SET SCHEMA PUBLIC
+CONNECT USER SA
+SET AUTOCOMMIT FALSE
+SET AUTOCOMMIT TRUE
+\u000a    alter table contact_table \u000a        drop constraint UK_a47xdycp36xqlvrf9sp5gnd2d
+\u000a    alter table contact_table \u000a        add constraint UK_a47xdycp36xqlvrf9sp5gnd2d  unique (FIRSTNAME, LASTNAME)
+SET AUTOCOMMIT FALSE
+DELETE FROM CONTACT_TABLE WHERE ID_CONTACT=1
+DELETE FROM ADDRESS_TABLE WHERE ID_ADDRESS=1
+COMMIT
+/*C4*/SET SCHEMA PUBLIC
+CONNECT USER SA
+DISCONNECT
+/*C3*/DISCONNECT
+/*C2*/DISCONNECT

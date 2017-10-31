@@ -1,0 +1,145 @@
+body {
+  padding-top: 40px;
+  padding-bottom: 10px;
+  background-color: blue;
+ text-align:center;
+ 
+}
+
+.alert-box 
+{
+	color:#555;
+	border-radius:20px;
+	font-family:Tahoma,Geneva,Arial,sans-serif;font-size:11px;
+	padding:40px 100px;
+	margin:10px;
+}
+
+.symbol 
+{
+	font-size: 0.9em;
+	font-family: Times New Roman;
+	border-radius: 1em;
+	padding: .1em .6em .1em .6em;
+	font-weight: bolder;
+	color: white;
+	background-color: #4E5A56;
+}
+
+
+.icon-excl { background: #ffd54b; color: black; }
+.icon-err { background: red; color: black; }
+
+.icon-excl:before { content: '!'; }
+.icon-err:before { content: '!'; }
+.icon-acc:before { content: ':)'; }
+
+.notify
+{
+	background-color:#e3f7fc; 
+	color:#555; 
+    border:.1em solid;
+	border-color: #8ed9f6;
+    border-radius: 10px;
+    font-family:Tahoma,Geneva,Arial,sans-serif;
+    font-size:1.1em;
+    padding:10px 10px 10px 10px;
+    margin:70px;
+    cursor: default;
+}
+
+.notify-yellow { background: #fff8c4; border-color: #f7deae; }
+.notify-red { background: pink; border-color: #f7deae; }
+.notify-green { background: green; border-color: #f7deae; }
+
+ 
+.obligatoire
+{
+	color :red;
+}
+.bold
+{
+	font-weight: bold;
+}
+#pied
+{
+	height: 10%;
+	margin-top: -10px;
+}
+
+table
+{
+    border-collapse: collapse;
+	text-align: center;
+	align : center;
+}
+
+TD
+{
+	text-align: center;
+	width: 300px;
+	height: 50px;
+}
+
+.t
+{
+	border: 1px solid black;
+	font-style: italic;
+	width: 200px;
+	height: 50px;
+}
+
+.h
+{
+	font-weight: bold;
+	background-color: #D8D8D8;
+	width: 200px;
+	height: 50px;
+	border: 1px solid black;
+}
+
+p
+{
+font-size: 120%;
+}
+
+.row
+{
+	margin-top:40px;
+	padding: 0 10px;
+	text-align: center;
+
+}
+.clickable{
+    cursor: pointer;   
+}
+
+.panel-heading div {
+	margin-top: -18px;
+	font-size: 15px;
+}
+.panel-heading div span{
+	margin-left:5px;
+}
+.panel-body{
+	display: none;
+	text-align: center;
+}
+
+.custab{
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 5% 0;
+    box-shadow: 3px 3px 2px #ccc;
+    transition: 0.5s;
+    }
+.custab:hover{
+    box-shadow: 3px 3px 0px transparent;
+    transition: 0.5s;
+    }
+
+h4
+{
+	font-style: italic;
+	 
+}
