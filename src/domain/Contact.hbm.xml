@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="domain">
+	<class name="Contact" table="contact_table">
+	<!--  <cache usage="read-write" /> -->
+		<id name="id_contact" type="long" column="ID_CONTACT">
+			<generator class="increment" />
+		</id>
+<!-- 		<version name="version" access="field" column="VERSION" /> -->
+		<properties name="name" unique="true"> 
+			<property name="firstName">
+				<column name="FIRSTNAME" />
+			</property>
+			<property name="lastName">
+				<column name="LASTNAME" />
+			</property>
+		</properties>
+		<property name="email">
+			<column name="EMAIL" />
+		</property>
+		<many-to-one name="address" column="ID_ADDRESS"
+		optimistic-lock="false"
+			class="domain.Address" unique="true" cascade="all-delete-orphan"
+			lazy="false" ></many-to-one>
+
+		<set name="profiles" table="phonenumber_table" inverse="true"
+			cascade="all-delete-orphan" lazy="false">
+			<key column="ID_CONTACT" />
+			<one-to-many class="domain.PhoneNumber" />
+		</set>
+		<set name="books" table="contactsbooks_table" lazy="false" cascade="save-update">
+			<key column="ID_CONTACT" />
+			<many-to-many class="domain.ContactGroup"
+				column="ID_CONTACTGROUP" />
+		</set>
+
+		<!-- Définition de la sous classe entreprise 
+		stockée dans une table fille à part (juste le siret stocké à part)-->
+		<joined-subclass name="Entreprise" table="entreprise_table" >
+			<key column="ID_CONTACT" />
+			<property name="numSiret" column="NUMSIRET" unique="true"/>
+		</joined-subclass>
+	</class>
+</hibernate-mapping>
