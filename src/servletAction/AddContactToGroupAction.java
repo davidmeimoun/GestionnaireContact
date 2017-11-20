@@ -11,6 +11,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import domain.Contact;
+import domain.util.ApplicationContextUtils;
 import service.ContactService;
 
 public class AddContactToGroupAction extends Action{
@@ -19,8 +20,7 @@ public class AddContactToGroupAction extends Action{
 			final HttpServletResponse pResponse) {
 		final long idGroupContact = Long.parseLong(pRequest.getParameter("idGroup"));
 		final long idContact = Long.parseLong(pRequest.getParameter("idContact"));
-		ContactService cs = new ContactService();
-
+		ContactService cs = (ContactService) ApplicationContextUtils.getApplicationContext().getBean("ContactService");
 		boolean result = cs.addContactToGroup(idGroupContact, idContact);
 			List<Contact> listContactInGroup = cs.listContactInGroup(idGroupContact);
 			List<Contact> listContactOutsideGroup = cs.listContactOutsideGroup(idGroupContact);

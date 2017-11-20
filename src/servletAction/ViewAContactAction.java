@@ -9,6 +9,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import domain.Contact;
+import domain.util.ApplicationContextUtils;
 import service.ContactService;
 
 public class ViewAContactAction extends Action{
@@ -16,7 +17,7 @@ public class ViewAContactAction extends Action{
 	public ActionForward execute(final ActionMapping pMapping, ActionForm pForm, final HttpServletRequest pRequest,
 			final HttpServletResponse pResponse) {
 		final int idt = Integer.parseInt(pRequest.getParameter("id"));
-		ContactService cs = new ContactService();
+		ContactService cs = (ContactService) ApplicationContextUtils.getApplicationContext().getBean("ContactService");
 		Contact c = cs.getContact(idt);
 		
 		 

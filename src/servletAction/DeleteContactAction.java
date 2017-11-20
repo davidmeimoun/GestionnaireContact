@@ -12,6 +12,7 @@ import org.apache.struts.action.ActionMapping;
 
 import dao.DAOContact;
 import domain.Contact;
+import domain.util.ApplicationContextUtils;
 import service.ContactService;
 
 public class DeleteContactAction extends Action {
@@ -19,7 +20,7 @@ public class DeleteContactAction extends Action {
 	public ActionForward execute(final ActionMapping pMapping, ActionForm pForm, final HttpServletRequest pRequest,
 			final HttpServletResponse pResponse) {
 		final int id = Integer.parseInt(pRequest.getParameter("id"));
-		ContactService cs = new ContactService();
+		ContactService cs = (ContactService) ApplicationContextUtils.getApplicationContext().getBean("ContactService");
 		 boolean result = cs.deleteContact(id);
 		List<Contact> lc =  cs.listContact();
 		pRequest.getServletContext().setAttribute("ListcontactResearch", lc);

@@ -12,7 +12,7 @@
 
 	<session-factory>
 
-		<!-- bloc de 5 propriétés pour décrire les info de connexion -->
+		<!-- bloc de 5 propriétés pour décrire les info de connexion  -->
 
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 
@@ -20,7 +20,7 @@
 
 		<property name="hibernate.connection.username">root</property>
 
-		<property name="hibernate.connection.password">root</property>
+		<property name="hibernate.connection.password"></property>
 
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 
@@ -28,10 +28,25 @@
 		<!-- ¤> Hibernate config cache!! -->
 		<!-- <property name="hibernate.current_session_context_class">thread</property> -->
 	<!-- 	<property name="hibernate.cache.use_query_cache">true</property>
+		<property name="hibernate.cache.use_second_level_cache">true</property> -->
+	
+
+	<!-- 
+<property name="cache.provider_class"> org.hibernate.cache.EhCacheProvider </property>
+<property name="net.sf.ehcache.configurationResourceName">/ehcache.xml</property>
+ <property name="cache.use_second_level_cache"> true </property>
+<property name="hibernate.cache.use_query_cache">true</property>
+<property name="hibernate.cache.provider_configuration_file_resource_path">ehcache.xml</property>
+<property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</property>
+<property name="hibernate.cache.provider_class">net.sf.ehcache.hibernate.EhCacheProvider</property>
+ 	-->
+ 	
+ 		<!-- ¤> Hibernate config cache!!-->
+		<!-- <property name="hibernate.current_session_context_class">thread</property>-->
+		<property name="hibernate.cache.use_query_cache">true</property>
 		<property name="hibernate.cache.use_second_level_cache">true</property>
-		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property> -->
-
-
+          	<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+ 	 
 		<!-- Celle-ci est liée au thread local. -->
 
 		<property name="current_session_context_class">thread</property>

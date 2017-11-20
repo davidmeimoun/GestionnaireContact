@@ -1,18 +1,20 @@
 package dao;
 
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
 import domain.Contact;
 import domain.ContactGroup;
 import domain.util.HibernateUtil;
 
-public class DAOContactGroup {
-
+public class DAOContactGroup extends HibernateDaoSupport{
+	public DAOContactGroup() {
+		super();
+	}
 	public boolean createContactGroup(String name) {
 
 		ContactGroup contactGroup = new ContactGroup();

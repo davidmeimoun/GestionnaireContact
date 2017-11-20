@@ -13,6 +13,7 @@ import org.apache.struts.action.ActionMapping;
 import actionForm.LoginForm;
 import domain.Contact;
 import domain.ContactGroup;
+import domain.util.ApplicationContextUtils;
 import service.ContactService;
 
 public class LoginValidationAction extends Action {
@@ -22,7 +23,7 @@ public class LoginValidationAction extends Action {
 		final LoginForm lForm = (LoginForm) form;
 		final String userName = lForm.getUserName();
 		final String password = lForm.getPassword();
-		ContactService cs = new ContactService();
+		ContactService cs = (ContactService) ApplicationContextUtils.getApplicationContext().getBean("ContactService");
 		List<Contact> c = cs.listContact();
 		List<ContactGroup> contactGroup = cs.listGroupContact();
 		request.getServletContext().setAttribute("ListcontactResearch", c);

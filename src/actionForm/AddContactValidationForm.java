@@ -21,13 +21,17 @@ public class AddContactValidationForm extends ActionForm {
 	private String lastName;
 	private String firstName;
 	private String email;
-	private String phoneNumber;
-	private String phoneKind;
+	private String phoneNumber1;
+	private String phoneKind1;
+	private String phoneNumber2;
+	private String phoneKind2;
+	private String phoneNumber3;
+	private String phoneKind3;
 	private String street;
 	private String city;
 	private String zip;
 	private String country;
-	
+
 	public void reset(ActionMapping mapping, HttpServletRequest request) {
 		this.numSiret = null;
 		this.id = 0;
@@ -76,20 +80,53 @@ public class AddContactValidationForm extends ActionForm {
 		this.email = email;
 	}
 
-	public String getPhoneNumber() {
-		return phoneNumber;
+
+	public String getPhoneNumber1() {
+		return phoneNumber1;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setPhoneNumber1(String phoneNumber1) {
+		this.phoneNumber1 = phoneNumber1;
 	}
 
-	public String getPhoneKind() {
-		return phoneKind;
+	public String getPhoneKind1() {
+		return phoneKind1;
 	}
 
-	public void setPhoneKind(String phoneKind) {
-		this.phoneKind = phoneKind;
+	public void setPhoneKind1(String phoneKind1) {
+		this.phoneKind1 = phoneKind1;
+	}
+
+	public String getPhoneNumber2() {
+		return phoneNumber2;
+	}
+
+	public void setPhoneNumber2(String phoneNumber2) {
+		this.phoneNumber2 = phoneNumber2;
+	}
+
+	public String getPhoneKind2() {
+		return phoneKind2;
+	}
+
+	public void setPhoneKind2(String phoneKind2) {
+		this.phoneKind2 = phoneKind2;
+	}
+
+	public String getPhoneNumber3() {
+		return phoneNumber3;
+	}
+
+	public void setPhoneNumber3(String phoneNumber3) {
+		this.phoneNumber3 = phoneNumber3;
+	}
+
+	public String getPhoneKind3() {
+		return phoneKind3;
+	}
+
+	public void setPhoneKind3(String phoneKind3) {
+		this.phoneKind3 = phoneKind3;
 	}
 
 	public String getStreet() {
@@ -124,58 +161,57 @@ public class AddContactValidationForm extends ActionForm {
 		this.country = country;
 	}
 
-	public boolean ifOnlyString(String chaine){
-       
-            if(chaine.matches("^[a-zA-Z]*$")){
-            	return false;
-            }
-            else{
-            	return true;
-            }
-       
+	public boolean ifOnlyString(String chaine) {
+
+		if (chaine.matches("^[a-zA-Z]*$")) {
+			return false;
+		} else {
+			return true;
+		}
+
 	}
-	
-	public boolean isInt(String chaine){ 
-		boolean valeur = true; 
-		char[] tab = chaine.toCharArray(); 
 
-		for(char carac : tab){ 
-		if(!Character.isDigit(carac) && valeur){ valeur = false; } 
-		} 
+	public boolean isInt(String chaine) {
+		boolean valeur = true;
+		char[] tab = chaine.toCharArray();
 
-		return valeur; 
-		} 
+		for (char carac : tab) {
+			if (!Character.isDigit(carac) && valeur) {
+				valeur = false;
+			}
+		}
+
+		return valeur;
+	}
+
 	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
 		ActionErrors errors = new ActionErrors();
-		
 
 		if (getNumSiret() != null || getNumSiret().length() >= 1) {
-			if(!isInt((getNumSiret()))){
+			if (!isInt((getNumSiret()))) {
 				errors.add("num siret chiffre", new ActionMessage("creation.numSiret.chiffre.error.required"));
 			}
-			
-		}
-		else
-		{
+
+		} else {
 			errors.add("numSiret", new ActionMessage("creation.numSiret.error.required"));
 		}
 		if (getFirstName() == null || getFirstName().length() < 1) {
 			errors.add("first name", new ActionMessage("creation.fn.error.required"));
 		}
 		if (getFirstName() != null || getFirstName().length() >= 1) {
-			if(ifOnlyString(getFirstName())){
+			if (ifOnlyString(getFirstName())) {
 				errors.add("first name chiffre", new ActionMessage("creation.fn.chiffre.error.required"));
 			}
-			
+
 		}
 		if (getLastName() == null || getLastName().length() < 1) {
 			errors.add("last name", new ActionMessage("creation.ln.error.required"));
 		}
 		if (getLastName() != null || getLastName().length() >= 1) {
-			if(ifOnlyString(getLastName())){
+			if (ifOnlyString(getLastName())) {
 				errors.add("last name chiffre", new ActionMessage("creation.ln.chiffre.error.required"));
 			}
-			
+
 		}
 		Pattern p = Pattern.compile(".*\\@.*\\..*");
 		Matcher m = p.matcher(getEmail());
@@ -186,47 +222,47 @@ public class AddContactValidationForm extends ActionForm {
 		}
 		if (getEmail() != null || getEmail().length() >= 1) {
 
-			if(!m.find()) {
-				errors.add("emailFormat", new ActionMessage("format.email.error.required")); 
-			}	
+			if (!m.find()) {
+				errors.add("emailFormat", new ActionMessage("format.email.error.required"));
+			}
 		}
-		
-		if (getPhoneKind() == null || getPhoneKind().length() < 1) {
+
+		if (getPhoneKind1() == null || getPhoneKind1().length() < 1) {
 			errors.add("phone kind", new ActionMessage("creation.phoneKind.error.required"));
 		}
-		if (getPhoneNumber() == null || getPhoneNumber().length() < 1) {
+		if (getPhoneNumber1() == null || getPhoneNumber1().length() < 1) {
 			errors.add("phone number", new ActionMessage("creation.phoneNumber.error.required"));
 		}
 		if (getStreet() == null || getStreet().length() < 1) {
 			errors.add("street", new ActionMessage("creation.street.error.required"));
 		}
-		
+
 		if (getZip() == null || getZip().length() < 1) {
 			errors.add("zip", new ActionMessage("creation.zip.error.required"));
 		}
 		if (getZip() != null || getZip().length() >= 1) {
-			if(!isInt((getZip()))){
+			if (!isInt((getZip()))) {
 				errors.add("zip chiffre", new ActionMessage("creation.zip.chiffre.error.required"));
 			}
-			
+
 		}
 		if (getCity() == null || getCity().length() < 1) {
 			errors.add("city", new ActionMessage("creation.city.error.required"));
 		}
 		if (getCity() != null || getCity().length() >= 1) {
-			if(ifOnlyString(getCity())){
+			if (ifOnlyString(getCity())) {
 				errors.add("city chiffre", new ActionMessage("creation.city.chiffre.error.required"));
 			}
-			
+
 		}
 		if (getCountry() == null || getCountry().length() < 1) {
 			errors.add("country", new ActionMessage("creation.country.error.required"));
 		}
 		if (getCountry() != null || getCountry().length() >= 1) {
-			if(ifOnlyString(getCountry())){
+			if (ifOnlyString(getCountry())) {
 				errors.add("country chiffre", new ActionMessage("creation.country.chiffre.error.required"));
 			}
-			
+
 		}
 		return errors;
 	}

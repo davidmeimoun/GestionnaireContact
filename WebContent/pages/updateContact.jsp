@@ -3,7 +3,84 @@
 <%@ taglib prefix="html" uri="http://struts.apache.org/tags-html"%>
 <%@ taglib prefix="bean" uri="http://struts.apache.org/tags-bean"%>
 <%@ taglib prefix="nested" uri="http://struts.apache.org/tags-nested"%>
+<script type="text/javascript">
 
+function demarage(){
+	
+	var x = document.getElementById('numSiretTextBox');
+	var checkbox = document.getElementById('checkBoxEntreprise');
+	if(x.value == 0){
+		checkbox.checked = false;
+		document.getElementById('divNumSiret').style.visibility = 'hidden';
+		
+	} else{
+		checkbox.checked = true;
+	}
+	var phone2 = document.getElementById('phone2');
+	var phone3 = document.getElementById('phone3');
+	
+	if(document.getElementById('pn2').value == ""){
+		phone2.style.visibility = 'hidden';
+	}
+	
+	if(document.getElementById('pn3').value == ""){
+		phone3.style.visibility = 'hidden';
+	}
+	
+}
+
+
+	
+	
+
+
+function addTel2(){
+	var x = document.getElementById('phone2')
+    if (x.style.visibility === 'hidden') {
+        x.style.visibility = 'visible';
+    }
+}
+
+function noDisplay(){
+	document.getElementById('phone2').style.visibility = 'hidden';
+	document.getElementById('phone3').style.visibility = 'hidden';
+	
+}
+
+function noDisplay2(){
+	document.getElementById('phone2').style.visibility = 'hidden';
+	document.getElementById('pn2').value = "";
+	document.getElementById('pk2').value = "";
+	
+}
+
+function addTel3(){
+	var x = document.getElementById('phone3')
+    if (x.style.visibility === 'hidden') {
+        x.style.visibility = 'visible';
+    }
+}
+function noDisplay3(){
+	document.getElementById('phone3').style.visibility = 'hidden';
+	document.getElementById('pn3').value = "";
+	document.getElementById('pk3').value = "";
+	
+}
+
+function activeNumSiret(){
+	var checkBox = document.getElementById('checkBoxEntreprise');
+	var numSiret = document.getElementById('divNumSiret');
+    if (checkBox.checked) {
+    	numSiret.style.visibility = 'visible';
+    	
+    } else{
+    	numSiret.style.visibility = 'hidden';
+    	document.getElementById('numSiretTextBox').value = 0;
+    }
+	
+	
+}
+</script>
 <html:html>
 
 <head>
@@ -20,7 +97,7 @@
 <html:base />
 </head>
 
-<body>
+<body onload="demarage()">
 
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
@@ -51,8 +128,14 @@
 			<html:form action="/UpdateContactJ">
 
 				<html:hidden name="updateC" property="id" />
-				
-							<!-- rajout du num siret de l'entreprise -->
+						<div  class="row">
+
+			<div class="col-md-4">
+Entreprise <input id="checkBoxEntreprise" type="checkbox" onclick="activeNumSiret()">
+			</div>
+
+			<div id="divNumSiret" class="col-md-4" >
+			<!-- rajout du num siret de l'entreprise -->
 			<bean:message key="label.contact.numSiret" />
 				<br>
 				<span style="color: red"><html:errors
@@ -60,10 +143,12 @@
 				<br>
 				<span style="color: red"><html:errors property="numSiret" /></span>
 				<br>
-				<html:text  name="updateC" property="numSiret" size="20" maxlength="20" 
+				<html:text styleId="numSiretTextBox"  name="updateC" property="numSiret" size="20" maxlength="20" 
 					styleClass="form-control" />
-				<BR>
-				<BR>
+			</div>
+			
+		</div>
+				
 				
 				<bean:message key="label.contact.firstName" />
 
@@ -101,21 +186,7 @@
 				<BR>
 				<br>
 
-				<bean:message key="label.contact.phoneNumber" />
-				<br>
-				<span style="color: red"><html:errors property="phone kind" /></span>
-				<br>
-				<html:text name="updateC" property="phoneNumber" size="20"
-					maxlength="20" styleClass="form-control" />
-				<BR>
-				<bean:message key="label.contact.phoneKind" />
-				<br>
-				<span style="color: red"><html:errors property="phone kind" /></span>
-				<br>
-				<html:text name="updateC" property="phoneKind" size="20"
-					maxlength="20" styleClass="form-control" />
-				<BR>
-				<br>
+
 
 				<bean:message key="label.contact.street" />
 				<br>
@@ -157,6 +228,123 @@
 				<br>
 				<html:text name="updateC" property="country" size="20"
 					maxlength="20" styleClass="form-control" />
+					
+					<br>
+					<br>
+					
+					
+				
+		
+		<!-- here -->
+				<div id="phone1" class="row">
+
+			<div class="col-md-4">
+				<bean:message key="label.contact.phoneNumber" />
+				<br>
+				<br>
+				<span style="color: red"><html:errors property="phone number" /></span>
+				<br>
+				<html:text styleId="pn1" name="updateC" property="phoneNumber1" size="20" 
+					maxlength="20" styleClass="form-control" />
+			</div>
+
+			<div class="col-md-4">
+
+				<bean:message key="label.contact.phoneKind" />
+				<br>
+				<span style="color: red"><html:errors property="phone kind" /></span>
+				<br>
+				 <html:select styleId="pk1" name="updateC" property="phoneKind1"  size="3" styleClass="form-control">
+              		<html:option value="Home"><bean:message key="label.contact.phoneKind.Home" /></html:option>
+					<html:option value="Work"><bean:message key="label.contact.phoneKind.Work" /></html:option>
+				    <html:option value="Mobile"><bean:message key="label.contact.phoneKind.Mobile" /></html:option>
+            </html:select>
+			</div>
+			
+			<div class="col-md-4">
+			<br>
+			<br>	
+			<br>
+			<input type="button" onclick="addTel2()" value="+" />
+			</div>
+		</div>
+		
+		<br>
+		
+		
+		<div id="phone2" class="row">
+
+			<div class="col-md-4">
+				<bean:message key="label.contact.phoneNumber" />
+				<br>
+				<br>
+				<span style="color: red"><html:errors property="phone number" /></span>
+				<br>
+				<html:text styleId="pn2" name="updateC" property="phoneNumber2" size="20" 
+					maxlength="20" styleClass="form-control" />
+			</div>
+
+			<div class="col-md-4">
+
+				<bean:message key="label.contact.phoneKind" />
+				<br>
+				<span style="color: red"><html:errors property="phone kind" /></span>
+				<br>
+				 <html:select styleId="pk2" name="updateC"  property="phoneKind2"  size="3" styleClass="form-control">
+              		<html:option value="Home"><bean:message key="label.contact.phoneKind.Home" /></html:option>
+					<html:option value="Work"><bean:message key="label.contact.phoneKind.Work" /></html:option>
+				    <html:option value="Mobile"><bean:message key="label.contact.phoneKind.Mobile" /></html:option>
+            </html:select>
+			</div>
+			
+			<div class="col-md-4">
+						<br>
+			<br>	
+			
+		<input type="button" onclick="addTel3()" value="+" />
+		<input type="button" onclick="noDisplay2()" value="-" />
+			</div>
+		</div>
+		
+		<br>
+		
+		
+		<div id="phone3" class="row">
+
+			<div class="col-md-4">
+				<bean:message key="label.contact.phoneNumber" />
+				<br>
+				<br>
+				<span style="color: red"><html:errors property="phone number" /></span>
+				<br>
+				<html:text styleId="pn3" name="updateC" property="phoneNumber3" size="20" 
+					maxlength="20" styleClass="form-control" />
+			</div>
+
+			<div class="col-md-4">
+
+				<bean:message key="label.contact.phoneKind" />
+				<br>
+				<span style="color: red"><html:errors property="phone kind" /></span>
+				<br>
+				 <html:select styleId="pk3" name="updateC" property="phoneKind3"  size="3" styleClass="form-control">
+              		<html:option value="Home"><bean:message key="label.contact.phoneKind.Home" /></html:option>
+					<html:option value="Work"><bean:message key="label.contact.phoneKind.Work" /></html:option>
+				    <html:option value="Mobile"><bean:message key="label.contact.phoneKind.Mobile" /></html:option>
+            </html:select>
+			</div>
+			
+			<div class="col-md-4">
+						<br>
+			<br>	
+			<br>
+		<input type="button" onclick="noDisplay3()" value="-" />
+			</div>
+		</div>
+		<!-- here 2 -->
+		
+		
+
 		</div>
 
 	</div>

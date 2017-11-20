@@ -8,8 +8,8 @@
 		<form-bean name="AddGroupContactValidationForm" type="actionForm.AddGroupContactValidationForm" />
 		<form-bean name="UpdateContactValidationForm" type="actionForm.UpdateContactValidationForm" />
 
-	<!--  	<form-bean name="DeleteContactValidationForm" type="actionForm.DeleteContactValidationForm" />-->
-		<form-bean name="UpdateContactValidationForm" type="actionForm.UpdateContactValidationForm" />
+	<!--  	<form-bean name="DeleteContactValidationForm" type="actionForm.DeleteContactValidationForm" />
+		<form-bean name="UpdateContactValidationForm" type="actionForm.UpdateContactValidationForm" />-->
 
 		<form-bean name="LoginForm" type="actionForm.LoginForm" />
 
@@ -88,7 +88,7 @@
 		
 		<action path="/UpdateContactJ" type="servletAction.UpdateContactAction"
 			name="UpdateContactValidationForm" scope="request" input="/pages/updateContact.jsp">
-			<forward name="success" path="/pages/main.jsp" />
+			<forward name="success" path="/pages/ResearchContact.jsp" />
 			<forward name="error" path="/pages/error.jsp" />
 		</action>
 

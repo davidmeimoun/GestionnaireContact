@@ -4,7 +4,7 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="domain">
 	<class name="ContactGroup" table="contactgroup_table">
-	<!--  <cache usage="read-write"/>  -->
+	 <!--  <cache usage="read-write"/> -->  
 		<id name="id_contactGroup" type="long" column="ID_CONTACTGROUP">
 			<generator class="increment" />
 		</id>

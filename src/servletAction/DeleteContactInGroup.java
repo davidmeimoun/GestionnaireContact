@@ -11,6 +11,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import domain.Contact;
+import domain.util.ApplicationContextUtils;
 import service.ContactService;
 
 public class DeleteContactInGroup extends Action {
@@ -19,7 +20,7 @@ public class DeleteContactInGroup extends Action {
 			final HttpServletResponse pResponse) {
 		final long idGroup = Long.parseLong(pRequest.getParameter("idGroup"));
 		final long idContact = Long.parseLong(pRequest.getParameter("idContact"));
-		ContactService cs = new ContactService();
+		ContactService cs = (ContactService) ApplicationContextUtils.getApplicationContext().getBean("ContactService");
 		boolean result = cs.deleteContactFromGroup(idGroup, idContact);
 		List<Contact> listContactInGroup = cs.listContactInGroup(idGroup);
 		List<Contact> listContactOutsideGroup = cs.listContactOutsideGroup(idGroup);

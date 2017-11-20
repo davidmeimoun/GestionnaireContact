@@ -12,6 +12,7 @@ import org.apache.struts.action.ActionMapping;
 
 import actionForm.AddGroupContactValidationForm;
 import domain.ContactGroup;
+import domain.util.ApplicationContextUtils;
 import service.ContactService;
 
 public class AddGroupContactAction extends Action {
@@ -21,7 +22,7 @@ public class AddGroupContactAction extends Action {
 		boolean result = false;
 		final AddGroupContactValidationForm lForm = (AddGroupContactValidationForm) pForm;
 		final String groupName = lForm.getGroupName();
-		ContactService cs = new ContactService();
+		ContactService cs = (ContactService) ApplicationContextUtils.getApplicationContext().getBean("ContactService");
 		ContactGroup contactGroup = new ContactGroup();
 		contactGroup.setGroupName(groupName);
 		result = cs.createContactGroup(groupName);

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
 import domain.Address;
 import domain.Contact;
@@ -12,7 +13,10 @@ import domain.Entreprise;
 import domain.PhoneNumber;
 import domain.util.HibernateUtil;
 
-public class DAOContact {
+public class DAOContact extends HibernateDaoSupport {
+	public DAOContact() {
+		super();
+	}
 
 	public Contact addContact(String fname, String lname, String email, Address address, Set<PhoneNumber> phones,
 			int numSiret) {
@@ -41,7 +45,7 @@ public class DAOContact {
 			session.close();
 			return c;
 		} catch (HibernateException e) {
-			System.out.println(e);
+			e.printStackTrace();
 			return null;
 		}
 
@@ -60,7 +64,7 @@ public class DAOContact {
 			result = result && true;
 			return result;
 		} catch (HibernateException e) {
-			System.out.println(e);
+			e.printStackTrace();
 			return false;
 		}
 
@@ -77,7 +81,7 @@ public class DAOContact {
 			session.close();
 			return lc;
 		} catch (HibernateException e) {
-			System.out.println(e);
+			e.printStackTrace();
 			return null;
 		}
 
@@ -94,7 +98,7 @@ public class DAOContact {
 			session.close();
 			return c;
 		} catch (HibernateException e) {
-			System.out.println(e);
+			e.printStackTrace();
 			return null;
 		}
 
@@ -109,9 +113,10 @@ public class DAOContact {
 			System.out.println(lc.toString());
 			for (Entreprise entreprise : lc) {
 				if (entreprise.getId_contact() == id) {
-					System.out.println("pour l'entreprise " +entreprise.getId_contact() + " le num siret est " + entreprise.getNumSiret());
+					System.out.println("pour l'entreprise " + entreprise.getId_contact() + " le num siret est "
+							+ entreprise.getNumSiret());
 					return entreprise.getNumSiret();
-					
+
 				}
 			}
 			session.close();
@@ -151,15 +156,16 @@ public class DAOContact {
 
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.update(c);
+			session.saveOrUpdate(c);
 			session.getTransaction().commit();
 			System.out.println("Fin MAJ, ID Contact = " + c.getId_contact());
 			session.close();
 			return c;
 		} catch (Exception e) {
-
+			e.printStackTrace();
 			return null;
 		}
 	}
+
 
 }

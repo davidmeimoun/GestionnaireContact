@@ -31,7 +31,7 @@
         </nav>
                         <div class="container">
             <br>
-                  <a class="btn btn-info" href="../AjoutContact.do"><span class="glyphicon glyphicon-eye-open "></span>Add</a>
+                  <a class="btn btn-info" href="../AddGroupContact.do"><span class="glyphicon glyphicon-eye-open "></span>Add</a>
 				
             </div>
             

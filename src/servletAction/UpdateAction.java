@@ -11,6 +11,7 @@ import org.apache.struts.action.ActionMapping;
 import actionForm.UpdateContactValidationForm;
 import domain.Contact;
 import domain.PhoneNumber;
+import domain.util.ApplicationContextUtils;
 import service.ContactService;
 
 public class UpdateAction extends Action {
@@ -19,7 +20,7 @@ public class UpdateAction extends Action {
 			final HttpServletResponse pResponse) {
 		UpdateContactValidationForm lForm = new UpdateContactValidationForm();
 		final int idt = Integer.parseInt(pRequest.getParameter("id"));
-		ContactService cs = new ContactService();
+		ContactService cs = (ContactService) ApplicationContextUtils.getApplicationContext().getBean("ContactService");
 		int numSiret = cs.getNumSiretEntreprise(idt);
 		Contact c = cs.getContact(idt);
 		System.out.println("dans UpdateAction.class, le num Siret est "+numSiret);
@@ -29,12 +30,27 @@ public class UpdateAction extends Action {
 		lForm.setLastName(c.getLastName());
 		lForm.setEmail(c.getEmail());
 		if (!c.getProfiles().isEmpty()) {
-			PhoneNumber[] tabPn = c.getProfiles().toArray(new PhoneNumber[c.getProfiles().size()]);
-			lForm.setPhoneNumber(tabPn[0].getPhoneNumber());
+ 			PhoneNumber[] tabPn = c.getProfiles().toArray(new PhoneNumber[c.getProfiles().size()]);
+			for (int i = 0; i < tabPn.length; i++) {
+				if(i==0)
+					lForm.setPhoneNumber1(tabPn[i].getPhoneNumber());
+				if(i==1)
+					lForm.setPhoneNumber2(tabPn[i].getPhoneNumber());
+				if(i==2)
+					lForm.setPhoneNumber3(tabPn[i].getPhoneNumber());
+			}
+			
 		}
 		if (!c.getProfiles().isEmpty()) {
 			PhoneNumber[] tabPn = c.getProfiles().toArray(new PhoneNumber[c.getProfiles().size()]);
-			lForm.setPhoneKind(tabPn[0].getPhoneKind());
+			for (int i = 0; i < tabPn.length; i++) {
+				if(i==0)
+					lForm.setPhoneKind1(tabPn[i].getPhoneKind());
+				if(i==1)
+					lForm.setPhoneKind2(tabPn[i].getPhoneKind());
+				if(i==2)
+					lForm.setPhoneKind3(tabPn[i].getPhoneKind());
+			}
 		}
 		lForm.setStreet(c.getAddress().getStreet());
 		lForm.setCity(c.getAddress().getCity());

@@ -21,8 +21,12 @@ public class UpdateContactValidationForm extends ActionForm {
 	private String lastName;
 	private String firstName;
 	private String email;
-	private String phoneNumber;
-	private String phoneKind;
+	private String phoneNumber1;
+	private String phoneKind1;
+	private String phoneNumber2;
+	private String phoneKind2;
+	private String phoneNumber3;
+	private String phoneKind3;
 	private String street;
 	private String city;
 	private String zip;
@@ -34,8 +38,12 @@ public class UpdateContactValidationForm extends ActionForm {
 		this.firstName = null;
 		this.lastName = null;
 		this.email = null;
-		this.phoneKind = null;
-		this.phoneNumber = null;
+		this.phoneKind1 = null;
+		this.phoneNumber1 = null;
+		this.phoneKind2 = null;
+		this.phoneNumber2 = null;
+		this.phoneKind3 = null;
+		this.phoneNumber3 = null;
 		this.street = null;
 		this.city = null;
 		this.zip = null;
@@ -82,20 +90,54 @@ public class UpdateContactValidationForm extends ActionForm {
 		this.email = email;
 	}
 
-	public String getPhoneNumber() {
-		return phoneNumber;
+
+
+	public String getPhoneNumber1() {
+		return phoneNumber1;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setPhoneNumber1(String phoneNumber1) {
+		this.phoneNumber1 = phoneNumber1;
 	}
 
-	public String getPhoneKind() {
-		return phoneKind;
+	public String getPhoneKind1() {
+		return phoneKind1;
 	}
 
-	public void setPhoneKind(String phoneKind) {
-		this.phoneKind = phoneKind;
+	public void setPhoneKind1(String phoneKind1) {
+		this.phoneKind1 = phoneKind1;
+	}
+
+	public String getPhoneNumber2() {
+		return phoneNumber2;
+	}
+
+	public void setPhoneNumber2(String phoneNumber2) {
+		this.phoneNumber2 = phoneNumber2;
+	}
+
+	public String getPhoneKind2() {
+		return phoneKind2;
+	}
+
+	public void setPhoneKind2(String phoneKind2) {
+		this.phoneKind2 = phoneKind2;
+	}
+
+	public String getPhoneNumber3() {
+		return phoneNumber3;
+	}
+
+	public void setPhoneNumber3(String phoneNumber3) {
+		this.phoneNumber3 = phoneNumber3;
+	}
+
+	public String getPhoneKind3() {
+		return phoneKind3;
+	}
+
+	public void setPhoneKind3(String phoneKind3) {
+		this.phoneKind3 = phoneKind3;
 	}
 
 	public String getStreet() {
@@ -195,10 +237,10 @@ public class UpdateContactValidationForm extends ActionForm {
 			}
 		}
 
-		if (getPhoneKind() == null || getPhoneKind().length() < 1) {
+		if (getPhoneKind1() == null || getPhoneKind1().length() < 1) {
 			errors.add("phone kind", new ActionMessage("creation.phoneKind.error.required"));
 		}
-		if (getPhoneNumber() == null || getPhoneNumber().length() < 1) {
+		if (getPhoneNumber1() == null || getPhoneNumber1().length() < 1) {
 			errors.add("phone number", new ActionMessage("creation.phoneNumber.error.required"));
 		}
 		if (getStreet() == null || getStreet().length() < 1) {
