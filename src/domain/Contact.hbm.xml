@@ -4,11 +4,11 @@
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="domain">
 	<class name="Contact" table="contact_table">
-	<!--  <cache usage="read-write" /> -->
+	<!--  <cache usage="read-write" />-->   
 		<id name="id_contact" type="long" column="ID_CONTACT">
 			<generator class="increment" />
 		</id>
-<!-- 		<version name="version" access="field" column="VERSION" /> -->
+		<version name="version" access="field" column="VERSION" /> 
 		<properties name="name" unique="true"> 
 			<property name="firstName">
 				<column name="FIRSTNAME" />
@@ -25,8 +25,7 @@
 			class="domain.Address" unique="true" cascade="all-delete-orphan"
 			lazy="false" ></many-to-one>
 
-		<set name="profiles" table="phonenumber_table" inverse="true"
-			cascade="all-delete-orphan" lazy="false">
+		<set name="profiles" table="phonenumber_table" inverse="true" lazy="false" fetch="select" cascade="all">
 			<key column="ID_CONTACT" />
 			<one-to-many class="domain.PhoneNumber" />
 		</set>
