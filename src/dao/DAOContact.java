@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
@@ -24,8 +25,10 @@ public class DAOContact extends HibernateDaoSupport {
 		Contact c;
 		if (numSiret <= 0) {
 			c = new Contact(fname, lname, email, address, phones);
+			c.setType("Contact");
 		} else {
 			c = new Entreprise(fname, lname, email, address, phones, numSiret);
+			c.setType("Entreprise");
 		}
 
 		if (phones != null) {
@@ -131,17 +134,21 @@ public class DAOContact extends HibernateDaoSupport {
 	public Contact updateContact(Contact c, String fname, String lname, String email, Address address,
 			Set<PhoneNumber> profiles, int siretnum) {
 		try {
-
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
 			if (siretnum <= 0) {
 				if (c instanceof Entreprise) {
 					System.out.println("Num siret n'est pas valide!....");
-					return null;
+					c.setType("Contact");
+					c = (Contact) c;
+					session.delete("from entreprise_table where id_contact = '" + c.getId_contact()+"'");
+					session.createQuery(" delete from entreprise_table where classId= :classId").setString("",  String.valueOf(c.getId_contact())).executeUpdate();
 				}
 			} else {
 				if (c instanceof Entreprise) {
 					((Entreprise) c).setNumSiret(siretnum);
-				} else {
-					return null;
+					c.setType("Entreprise");
+					c = (Entreprise) c;
 				}
 			}
 			if (!fname.equals(c.getFirstName()))
@@ -158,7 +165,7 @@ public class DAOContact extends HibernateDaoSupport {
 				c.getAddress().setStreet(address.getStreet());
 			if (!address.getZip().equals(c.getAddress().getZip()))
 				c.getAddress().setZip(address.getZip());
-			
+
 			if (profiles != null) {
 				for (PhoneNumber profile : profiles) {
 					profile.setContact(c);
@@ -168,8 +175,6 @@ public class DAOContact extends HibernateDaoSupport {
 			c.setProfiles(profiles);
 			System.out.println("Updating all the thing" + c);
 
-			Session session = HibernateUtil.getSessionFactory().openSession();
-			session.beginTransaction();
 			session.saveOrUpdate(c);
 			session.getTransaction().commit();
 			System.out.println("Fin MAJ, ID Contact = " + c.getId_contact());
@@ -180,6 +185,5 @@ public class DAOContact extends HibernateDaoSupport {
 			return null;
 		}
 	}
-
 
 }

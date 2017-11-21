@@ -63,7 +63,8 @@
                                         <TD><bean:write name="listContactsId" property="firstName"/> </TD>
                                         <TD><bean:write name="listContactsId" property="lastName"/></TD>
                                         <TD><bean:write name="listContactsId" property="email"/></TD>
-                                        <TD><bean:write name="listContactsId" property="email"/></TD>
+                                        <TD><bean:write name="listContactsId" property="type"/></TD>
+                                        
                                    
                                         <TD class="text-center">
                                         <a class="btn btn-info" href="../ViewAContact.do?id=<bean:write name="listContactsId" property="id_contact"/>"><span class="glyphicon glyphicon-eye-open "></span><bean:message key="menu.viewcontact.link"/></a>

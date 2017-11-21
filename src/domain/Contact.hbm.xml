@@ -20,6 +20,10 @@
 		<property name="email">
 			<column name="EMAIL" />
 		</property>
+				<property name="type">
+			<column name="TYPE" />
+		</property>
+		
 		<many-to-one name="address" column="ID_ADDRESS"
 		optimistic-lock="false"
 			class="domain.Address" unique="true" cascade="all-delete-orphan"

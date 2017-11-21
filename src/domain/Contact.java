@@ -12,6 +12,7 @@ public class Contact {
 	private Address address;
 	private Set<PhoneNumber> profiles;
 	private Set<ContactGroup> books;
+	private String type;
 
 	public Contact(long id_contact, String firstName, String lastName, String email, Address address,
 			Set<PhoneNumber> profiles, Set<ContactGroup> books) {
@@ -53,8 +54,18 @@ public class Contact {
 		this.profiles = profiles;
 	}
 
+	
 	public Contact() {
 		super();
+	}
+
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public long getId_contact() {

@@ -63,8 +63,8 @@ public class UpdateContactAction extends Action {
 		Contact c = cs.updateContact(contactTmp, firstName, lastName, email, address, sPn, Integer.parseInt(numSiret));
 		List<Contact> lc = cs.listContact();
 
+		pRequest.getServletContext().setAttribute("ListcontactResearch", lc);
 		if (c == null) {
-			pRequest.getServletContext().setAttribute("ListcontactResearch", lc);
 			return pMapping.findForward("error");
 		} else {
 			return pMapping.findForward("success");
