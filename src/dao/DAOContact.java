@@ -144,13 +144,27 @@ public class DAOContact extends HibernateDaoSupport {
 					return null;
 				}
 			}
+			if (!fname.equals(c.getFirstName()))
+				c.setFirstName(fname);
+			if (!lname.equals(c.getLastName()))
+				c.setLastName(lname);
+			if (!email.equals(c.getEmail()))
+				c.setEmail(email);
+			if (!address.getCity().equals(c.getAddress().getCity()))
+				c.getAddress().setCity(address.getCity());
+			if (!address.getCountry().equals(c.getAddress().getCountry()))
+				c.getAddress().setCountry(address.getCountry());
+			if (!address.getStreet().equals(c.getAddress().getStreet()))
+				c.getAddress().setStreet(address.getStreet());
+			if (!address.getZip().equals(c.getAddress().getZip()))
+				c.getAddress().setZip(address.getZip());
+			
 			if (profiles != null) {
 				for (PhoneNumber profile : profiles) {
 					profile.setContact(c);
 					c.getProfiles().add(profile);
 				}
 			}
-			c.setAddress(address);
 			c.setProfiles(profiles);
 			System.out.println("Updating all the thing" + c);
 

@@ -49,6 +49,7 @@
                                         <th><bean:message key="label.contact.firstName"/></th>
                                         <th><bean:message key="label.contact.lastName"/> </th>
                                         <th><bean:message key="label.contact.email"/></th>
+                                        <th>Entreprise</th>
                                         <th colspan=3 align=center>Action</th>
                                         
                                     </tr>
@@ -61,6 +62,7 @@
                                         <TD><bean:write name="listContactsId" property="id_contact"/> </TD>
                                         <TD><bean:write name="listContactsId" property="firstName"/> </TD>
                                         <TD><bean:write name="listContactsId" property="lastName"/></TD>
+                                        <TD><bean:write name="listContactsId" property="email"/></TD>
                                         <TD><bean:write name="listContactsId" property="email"/></TD>
                                    
                                         <TD class="text-center">

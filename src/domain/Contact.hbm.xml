@@ -25,7 +25,7 @@
 			class="domain.Address" unique="true" cascade="all-delete-orphan"
 			lazy="false" ></many-to-one>
 
-		<set name="profiles" table="phonenumber_table" inverse="true" lazy="false" fetch="select" cascade="all">
+		<set name="profiles" table="phonenumber_table"  lazy="false"  cascade="all-delete-orphan">
 			<key column="ID_CONTACT" />
 			<one-to-many class="domain.PhoneNumber" />
 		</set>
