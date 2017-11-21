@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
@@ -51,7 +50,6 @@ public class DAOContact extends HibernateDaoSupport {
 			e.printStackTrace();
 			return null;
 		}
-
 	}
 
 	public boolean deleteContact(long id) {
@@ -141,8 +139,9 @@ public class DAOContact extends HibernateDaoSupport {
 					System.out.println("Num siret n'est pas valide!....");
 					c.setType("Contact");
 					c = (Contact) c;
-					session.delete("from entreprise_table where id_contact = '" + c.getId_contact()+"'");
-					session.createQuery(" delete from entreprise_table where classId= :classId").setString("",  String.valueOf(c.getId_contact())).executeUpdate();
+					session.delete("from entreprise_table where id_contact = '" + c.getId_contact() + "'");
+					session.createQuery(" delete from entreprise_table where classId= :classId")
+							.setString("", String.valueOf(c.getId_contact())).executeUpdate();
 				}
 			} else {
 				if (c instanceof Entreprise) {
