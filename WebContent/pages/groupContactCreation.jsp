@@ -10,8 +10,6 @@
         <link rel='stylesheet' href='css/sty.css' />
         <link rel='stylesheet' href='css/signin.css'>
         <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-        <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
         
     <html:base />
 </head>

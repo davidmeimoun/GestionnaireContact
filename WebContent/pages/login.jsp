@@ -20,7 +20,7 @@
 
 </head>
 	
-	<body bgcolor="white">
+	<body background="./images/new-york.jpg" bgcolor="white">
 	
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			

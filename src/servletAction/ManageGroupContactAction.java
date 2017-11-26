@@ -24,8 +24,8 @@ public class ManageGroupContactAction extends Action {
 		ContactService cs = (ContactService) ApplicationContextUtils.getApplicationContext().getBean("ContactService");
 		List<Contact> listContactInGroup = cs.listContactInGroup(idGroup);
 		List<Contact> listContactOutsideGroup = cs.listContactOutsideGroup(idGroup);
-	pRequest.getServletContext().setAttribute("ListContactInGroup", listContactInGroup);
-	pRequest.getServletContext().setAttribute("listContactOutsideGroup", listContactOutsideGroup);
+		pRequest.getServletContext().setAttribute("ListContactInGroup", listContactInGroup);
+		pRequest.getServletContext().setAttribute("listContactOutsideGroup", listContactOutsideGroup);
 		return pMapping.findForward("success");
 	}
 }

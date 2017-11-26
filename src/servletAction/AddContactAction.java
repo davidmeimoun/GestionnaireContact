@@ -11,7 +11,6 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.springframework.context.ApplicationContext;
 
 import actionForm.AddContactValidationForm;
 import domain.Address;
@@ -47,11 +46,11 @@ public class AddContactAction extends Action {
 		Set<PhoneNumber> sPn = new HashSet<PhoneNumber>();
 		PhoneNumber pn = new PhoneNumber(phoneKind1, phoneNumber1, null);
 		sPn.add(pn);
-		if(phoneKind2 != null && !phoneKind2.isEmpty() && phoneNumber2 != null && !phoneNumber2.isEmpty()) {
+		if (phoneKind2 != null && !phoneKind2.isEmpty() && phoneNumber2 != null && !phoneNumber2.isEmpty()) {
 			PhoneNumber pn2 = new PhoneNumber(phoneKind2, phoneNumber2, null);
 			sPn.add(pn2);
 		}
-		if(phoneKind3 != null && !phoneKind3.isEmpty() && phoneNumber3 != null && !phoneNumber3.isEmpty()) {
+		if (phoneKind3 != null && !phoneKind3.isEmpty() && phoneNumber3 != null && !phoneNumber3.isEmpty()) {
 			PhoneNumber pn3 = new PhoneNumber(phoneKind3, phoneNumber3, null);
 			sPn.add(pn3);
 		}

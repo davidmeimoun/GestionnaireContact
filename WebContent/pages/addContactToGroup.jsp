@@ -41,7 +41,9 @@
 	       	</div>
 	    </nav>
 	    
+<div  class="row">
 
+			<div class="col-md-6">
 
 	<!--  Partie tous les contacts qui ne sont pas dans le group -->
 	<div class="container">
@@ -91,18 +93,19 @@
 
 		</div>
 	</div>
-	
+	</div>
+	<div  class="col-md-6">
 
 	<!--  Partie Contact déjà dans le group -->
 	
-	<div class="container">
+	<div  class="fixed-div">
 
 		<div class="row col-md-6 col-md-offset-2 custyle">
 			    			<h4>
 				<bean:message key="label.contact.inGroup" />
 			</h4>
 
-			<table class="table table-striped custab table-hover">
+			<table  class="table table-striped custab table-hover">
 				<thead>
 					<tr>
 						<th><bean:message key="label.contact.id" /></th>
@@ -142,6 +145,8 @@
 
 		</div>
 	</div>
+	</div>
+</div>
 
 
 </body>

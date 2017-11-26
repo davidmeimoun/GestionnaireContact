@@ -16,6 +16,16 @@ function demarage(){
 	} else{
 		checkbox.checked = true;
 	}
+	var phone2 = document.getElementById('phone2');
+	var phone3 = document.getElementById('phone3');
+	
+	if(document.getElementById('pn2').value == ""){
+		phone2.style.visibility = 'hidden';
+	}
+	
+	if(document.getElementById('pn3').value == ""){
+		phone3.style.visibility = 'hidden';
+	}
 }
 
 
@@ -114,7 +124,6 @@ function activeNumSiret(){
 
 			<BR> <BR>
 
-			<html:form action="/UpdateContactJ">
 
 				<html:hidden name="updateC" property="id" />
 						<div  class="row">
@@ -337,15 +346,8 @@ Entreprise <input disabled="disabled" id="checkBoxEntreprise" type="checkbox" on
 		</div>
 
 	</div>
-	<center>
-		<html:submit styleClass="btn btn-lg btn-warning">
-			<bean:message key="label.button.update" />
-		</html:submit>
-	</center>
 	<BR>
 	<BR>
-
-	</html:form>
 
 </body>
 

@@ -24,6 +24,9 @@ public class LoginValidationAction extends Action {
 		final String userName = lForm.getUserName();
 		final String password = lForm.getPassword();
 		ContactService cs = (ContactService) ApplicationContextUtils.getApplicationContext().getBean("ContactService");
+		if (cs.listContact().isEmpty()) {
+			cs.generateContact();
+		}
 		List<Contact> c = cs.listContact();
 		List<ContactGroup> contactGroup = cs.listGroupContact();
 		request.getServletContext().setAttribute("ListcontactResearch", c);

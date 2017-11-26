@@ -54,12 +54,10 @@ public class Contact {
 		this.profiles = profiles;
 	}
 
-	
 	public Contact() {
 		super();
 	}
 
-	
 	public String getType() {
 		return type;
 	}
@@ -137,8 +135,5 @@ public class Contact {
 		return "Contact [id_contact=" + id_contact + ", version=" + version + ", firstName=" + firstName + ", lastName="
 				+ lastName + ", email=" + email + "]";
 	}
-	
-
-	
 
 }

@@ -23,32 +23,32 @@ public class UpdateAction extends Action {
 		ContactService cs = (ContactService) ApplicationContextUtils.getApplicationContext().getBean("ContactService");
 		int numSiret = cs.getNumSiretEntreprise(idt);
 		Contact c = cs.getContact(idt);
-		System.out.println("dans UpdateAction.class, le num Siret est "+numSiret);
+		System.out.println("dans UpdateAction.class, le num Siret est " + numSiret);
 		lForm.setId(idt);
 		lForm.setNumSiret(String.valueOf(numSiret));
 		lForm.setFirstName(c.getFirstName());
 		lForm.setLastName(c.getLastName());
 		lForm.setEmail(c.getEmail());
 		if (!c.getProfiles().isEmpty()) {
- 			PhoneNumber[] tabPn = c.getProfiles().toArray(new PhoneNumber[c.getProfiles().size()]);
+			PhoneNumber[] tabPn = c.getProfiles().toArray(new PhoneNumber[c.getProfiles().size()]);
 			for (int i = 0; i < tabPn.length; i++) {
-				if(i==0)
+				if (i == 0)
 					lForm.setPhoneNumber1(tabPn[i].getPhoneNumber());
-				if(i==1)
+				if (i == 1)
 					lForm.setPhoneNumber2(tabPn[i].getPhoneNumber());
-				if(i==2)
+				if (i == 2)
 					lForm.setPhoneNumber3(tabPn[i].getPhoneNumber());
 			}
-			
+
 		}
 		if (!c.getProfiles().isEmpty()) {
 			PhoneNumber[] tabPn = c.getProfiles().toArray(new PhoneNumber[c.getProfiles().size()]);
 			for (int i = 0; i < tabPn.length; i++) {
-				if(i==0)
+				if (i == 0)
 					lForm.setPhoneKind1(tabPn[i].getPhoneKind());
-				if(i==1)
+				if (i == 1)
 					lForm.setPhoneKind2(tabPn[i].getPhoneKind());
-				if(i==2)
+				if (i == 2)
 					lForm.setPhoneKind3(tabPn[i].getPhoneKind());
 			}
 		}

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@page import="domain.*"%>
+<%@page import="java.util.List"%>
 <%@ taglib prefix="html" uri="http://struts.apache.org/tags-html"%>
 <%@ taglib prefix="bean" uri="http://struts.apache.org/tags-bean"%>
 <%@ taglib prefix="nested" uri="http://struts.apache.org/tags-nested"%>
@@ -12,6 +14,27 @@ function addTel2(){
     }
 }
 
+function dem(){
+	var firstname = document.getElementById('textBoxFirstName').value;
+	var lastname = document.getElementById('textBoxLastName').value;
+	var email = document.getElementById('textBoxEmail').value;
+	var numSiret = document.getElementById('numSiretTextBox').value;
+	
+	<%List<Contact> contact = (List<Contact>) request.getServletContext().getAttribute("ListcontactResearch");%>
+   <% for (int i=0;i<contact.size();i++) {%>
+   var listFn = '<%= contact.get(i).getFirstName() %>';
+   var listLn = '<%= contact.get(i).getLastName() %>';
+   var listEmail = '<%= contact.get(i).getEmail() %>';
+  
+   if((listFn == firstname & listLn == lastname) || listEmail == email )
+   {
+   alert('Ce contact existe déjà');
+   return false;
+   }
+   <% } %>
+
+   
+}
 function noDisplay(){
 	document.getElementById('phone2').style.visibility = 'hidden';
 	document.getElementById('phone3').style.visibility = 'hidden';
@@ -56,12 +79,9 @@ function activeNumSiret(){
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><bean:message key="add.contact" /></title>
-<link rel='stylesheet' href='sty.css' />
-<link href="signin.css" rel="stylesheet">
+<link rel='stylesheet' href='assets/css/sty.css' />
+<link href="signin.css" rel="assets/stylesheet">
 <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
-<link href="../../assets/css/ie10-viewport-bug-workaround.css"
-	rel="stylesheet">
-<script src="../../assets/js/ie-emulation-modes-warning.js"></script>
 
 <html:base />
 
@@ -130,7 +150,7 @@ Entreprise <input id="checkBoxEntreprise" type="checkbox" onclick="activeNumSire
 				<br>
 				<span style="color: red"><html:errors property="first name" /></span>
 				<br>
-				<html:text property="firstName" size="20" maxlength="20"
+				<html:text styleId="textBoxFirstName" property="firstName" size="20" maxlength="20"
 					styleClass="form-control" />
 				<BR>
 				<BR>
@@ -142,7 +162,7 @@ Entreprise <input id="checkBoxEntreprise" type="checkbox" onclick="activeNumSire
 				<br>
 				<span style="color: red"><html:errors property="last name" /></span>
 				<br>
-				<html:text property="lastName" size="20" maxlength="20"
+				<html:text styleId="textBoxLastName" property="lastName" size="20" maxlength="20"
 					styleClass="form-control" />
 				<BR>
 				<BR>
@@ -153,7 +173,7 @@ Entreprise <input id="checkBoxEntreprise" type="checkbox" onclick="activeNumSire
 				<br>
 				<span style="color: red"><html:errors property="email" /></span>
 				<br>
-				<html:text property="email" size="30" maxlength="30"
+				<html:text styleId="textBoxEmail" property="email" size="30" maxlength="30"
 					styleClass="form-control" />
 				<BR>
 				<BR>
@@ -321,10 +341,12 @@ Entreprise <input id="checkBoxEntreprise" type="checkbox" onclick="activeNumSire
 		</div>
 		</div>
 		
+		
 
 	</div>
+	<br>
 	<center>
-		<html:submit styleClass="btn btn-lg btn-primary">
+		<html:submit styleClass="btn btn-lg btn-primary" onclick="return dem()">
 			<bean:message key="label.button.create" />
 		</html:submit>
 	</center>

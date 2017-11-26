@@ -14,18 +14,18 @@ import domain.Contact;
 import domain.util.ApplicationContextUtils;
 import service.ContactService;
 
-public class AddContactToGroupAction extends Action{
-	
+public class AddContactToGroupAction extends Action {
+
 	public ActionForward execute(final ActionMapping pMapping, ActionForm pForm, final HttpServletRequest pRequest,
 			final HttpServletResponse pResponse) {
 		final long idGroupContact = Long.parseLong(pRequest.getParameter("idGroup"));
 		final long idContact = Long.parseLong(pRequest.getParameter("idContact"));
 		ContactService cs = (ContactService) ApplicationContextUtils.getApplicationContext().getBean("ContactService");
 		boolean result = cs.addContactToGroup(idGroupContact, idContact);
-			List<Contact> listContactInGroup = cs.listContactInGroup(idGroupContact);
-			List<Contact> listContactOutsideGroup = cs.listContactOutsideGroup(idGroupContact);
-			pRequest.getServletContext().setAttribute("ListContactInGroup", listContactInGroup);
-			pRequest.getServletContext().setAttribute("listContactOutsideGroup", listContactOutsideGroup);
+		List<Contact> listContactInGroup = cs.listContactInGroup(idGroupContact);
+		List<Contact> listContactOutsideGroup = cs.listContactOutsideGroup(idGroupContact);
+		pRequest.getServletContext().setAttribute("ListContactInGroup", listContactInGroup);
+		pRequest.getServletContext().setAttribute("listContactOutsideGroup", listContactOutsideGroup);
 		if (result) {
 			// if no exception is raised,
 			return pMapping.findForward("success");

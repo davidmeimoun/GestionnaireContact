@@ -15,9 +15,6 @@
 <link href='css/sty.css' rel='stylesheet' />
 <link href="css/signin.css" rel="stylesheet">
 <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
-<link href="../../assets/css/ie10-viewport-bug-workaround.css"
-	rel="stylesheet">
-<script src="../../assets/js/ie-emulation-modes-warning.js"></script>
 
 </head>
 

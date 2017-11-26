@@ -9,11 +9,8 @@
 						http://www.springframework.org/schema/aop
                      	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<!-- Référence vers les méthodes stubs 
-	<import resource="classpath*:/WEB-INF/stubContactContext.xml" />
-    R-Try import 
- 
-   -->
+	<!-- Référence vers les méthodes stubs <import resource="classpath*:/WEB-INF/stubContactContext.xml" 
+		/> R-Try import -->
 
 	<!-- Data source déduite du hibernate config -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
@@ -27,18 +24,40 @@
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<!-- retrieve conf from cfg: http://stackoverflow.com/questions/471799/spring-and-hibernate-cfg-xml -->
-		<property name="configLocation">
-			<value>classpath:hibernate.cfg.xml</value>
-		</property>
+  <property name="dataSource">
+     <ref bean="dataSource"/>
+   </property>
+  <property name="hibernateProperties">
+     <props>
+       <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+       <prop key="hibernate.hbm2ddl.auto">create</prop>
+              <prop key="connection.pool_size">1</prop>
+               <prop key="hibernate.format_sql">true</prop>
+     </props>
+   </property>
+   <property name="mappingResources">
+     <list>
+       <value>domain/Contact.hbm.xml</value>
+       <value>domain/Address.hbm.xml</value>
+	   <value>domain/PhoneNumber.hbm.xml</value>
+       <value>domain/ContactGroup.hbm.xml</value>
+     </list>
+   </property> 
 	</bean>
+	
+	 <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">  
+    <property name="sessionFactory" ref="sessionFactory"></property>  
+    </bean>  
 
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-<!--  
-	<tx:advice id="txAdvice">
+	
+	
+	
+		<tx:advice id="txAdvice">
 		<tx:attributes>
 			<tx:method name="get*" read-only="true" timeout="-1" />
 			<tx:method name="sav*" propagation="REQUIRED" read-only="false" />
@@ -48,36 +67,43 @@
 			<tx:method name="generate*" read-only="false" />
 			<tx:method name="modify*" read-only="false" />
 			<tx:method name="delete*" propagation="REQUIRED" />
+			 <tx:method name="*" />
 		</tx:attributes>
 	</tx:advice>
+
 	<aop:config>
-		<aop:advisor pointcut="execution(* codel.as.dao.*.*(..))"
-			advice-ref="txAdvice" />
-	</aop:config>
+    <aop:pointcut id="contactServiceOperation"
+        expression="execution(* service.ContactService.*(..))" />
+    <aop:advisor advice-ref="txAdvice" pointcut-ref="contactServiceOperation" />
+</aop:config>
 
-	<aop:config> <aop:advisor pointcut="execution(* 
-		dao.*.*(..))" advice-ref="txAdvice" /> <aop:aspect id="ContactLoggerBean" 
-		ref="ContactLogger"> <aop:before pointcut="execution(* codel.as.service.ContactService.addContact(String,String,*,*,*,*)) 
-		and args(firstname,lastname,*,*,*,*)" method="log" arg-names="firstname,lastname" 
-		/> </aop:aspect> </aop:config> 
-	<bean id="ContactLogger" class="codel.as.aspect.ContactLogger" />
--->
+	
+	
+	
+	
+	
+	
 	<!-- Service implem -->
-	<bean id="ContactService" class="service.ContactService"
-		scope="singleton">
+	<bean id="ContactService" class="service.ContactService" scope="singleton">
+		<property name="daoContact" ref="DAOContact" />
+		<property name="daoContactGroup" ref="DAOContactGroup" />
 	</bean>
-	
 
-	<!-- **  Dao Implems ** -->
-	
 
-	<bean id="DAOContact" class="dao.DAOContact"
-		scope="singleton">
-		<property name="sessionFactory" ref="sessionFactory" />
+	<!-- ** Dao Implems ** -->
+
+
+	<bean id="DAOContact" class="dao.impl.DAOContactImpl" scope="singleton">
+
+		<constructor-arg>
+			<ref bean="DAOContactGroup" />
+		</constructor-arg>
+				<property name="sessionFactory" ref="sessionFactory" />
+		<!-- <property name="sessionFactory" ref="sessionFactory" /> -->
 	</bean>
-	<bean id="DAOContactGroup" class="dao.DAOContactGroup"
-		scope="singleton">
+	<bean id="DAOContactGroup" class="dao.impl.DAOContactGroupImpl" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
+		<!-- <property name="sessionFactory" ref="sessionFactory" /> -->
 	</bean>
 
 

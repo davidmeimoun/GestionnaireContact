@@ -14,7 +14,10 @@ body {
 	padding:40px 100px;
 	margin:10px;
 }
-
+.fixed-div
+{
+     position: fixed;
+}
 .symbol 
 {
 	font-size: 0.9em;

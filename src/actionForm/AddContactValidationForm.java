@@ -80,7 +80,6 @@ public class AddContactValidationForm extends ActionForm {
 		this.email = email;
 	}
 
-
 	public String getPhoneNumber1() {
 		return phoneNumber1;
 	}
@@ -163,7 +162,7 @@ public class AddContactValidationForm extends ActionForm {
 
 	public boolean ifOnlyString(String chaine) {
 
-		if (chaine.matches("^[a-zA-Z]*$")) {
+		if (chaine.matches("(^[-a-zA-Z*(é|è|à|ù|\\s)]+$)*$")) {
 			return false;
 		} else {
 			return true;

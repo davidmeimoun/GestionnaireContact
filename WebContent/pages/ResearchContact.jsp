@@ -11,18 +11,17 @@
 		<link rel='stylesheet' href='css/sty.css' />
 		<link rel='stylesheet' href='css/signin.css'>
 		<link href="./assets/css/bootstrap.min.css" rel="stylesheet">
-		<link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-		<script src="../../assets/js/ie-emulation-modes-warning.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+		<script src="./assets/js/jquery.min.js"></script>
+		<link rel="stylesheet" href="./assets/css/jquery-ui.css">
+		<script src="./assets/js/jquery-ui.min.js"></script>
 		<script>
 			$(function() {
 				 var nameContact = [];
+				 
 				 var idContact = [];
 				<%List<Contact> contact = (List<Contact>) request.getServletContext().getAttribute("ListcontactResearch");%>
                 <% for (int i=0;i<contact.size();i++) {%>
-                 nameContact[<%= i %>] = "<%= contact.get(i).getFirstName() %>";
+                 nameContact[<%= i %>] = "<%= contact.get(i).getFirstName() + " " + contact.get(i).getLastName() %>";
 			    <% } %>
                  $("#month").autocomplete({
 					source: nameContact
@@ -32,16 +31,22 @@
 				 var nameContact = [];
 				 var idContact = [];
 				var name = document.getElementById('month').value;
-				var id;
-				<% for (int i=0;
-				 i<contact.size();
-				 i++) {
-					 %>if(name ==  "<%= contact.get(i).getFirstName() %>"){
-						 id = "<%= contact.get(i).getId_contact() %>";
-					}
-					<% 
+				if(name == ""){
+				alert("Please enter correct value.");	
 				}
-				 %> document.location.href="../updateContact.do?id="+id;
+				else{
+					var id;
+					<% for (int i=0;
+					 i<contact.size();
+					 i++) {
+						 %>if(name ==  "<%= contact.get(i).getFirstName()  + " " + contact.get(i).getLastName()  %>"){
+							 id = "<%= contact.get(i).getId_contact() %>";
+						}
+						<% 
+					}
+					 %> document.location.href="../updateContact.do?id="+id;
+				}
+				
 			}
 		</script>
 		<html:base />
