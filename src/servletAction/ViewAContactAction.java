@@ -1,5 +1,7 @@
 package servletAction;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,6 +12,7 @@ import org.apache.struts.action.ActionMapping;
 
 import actionForm.UpdateContactValidationForm;
 import domain.Contact;
+import domain.ContactGroup;
 import domain.PhoneNumber;
 import domain.util.ApplicationContextUtils;
 import service.ContactService;
@@ -56,7 +59,9 @@ public class ViewAContactAction extends Action {
 		lForm.setZip(c.getAddress().getZip());
 		lForm.setCountry(c.getAddress().getCountry());
 
+		List<ContactGroup> listContactGroup = cs.getListContactGroupForOneContact(idt);
 		pRequest.getServletContext().setAttribute("updateC", lForm);
+		pRequest.getServletContext().setAttribute("listGroupContactForTheContact", listContactGroup );
 		if (idt > 0) {
 			// if no exception is raised,
 			return pMapping.findForward("success");

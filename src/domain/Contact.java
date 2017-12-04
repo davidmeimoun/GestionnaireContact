@@ -2,10 +2,15 @@ package domain;
 
 import java.util.Set;
 
+import javax.persistence.Version;
+
 public class Contact {
 
-	private long id_contact;
+	@Version
 	private int version;
+	
+	private long id_contact;
+
 	private String firstName;
 	private String lastName;
 	private String email;

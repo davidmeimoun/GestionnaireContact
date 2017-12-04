@@ -44,6 +44,10 @@ public class ContactService {
 		return daoContact.addContact(fname, lname, email, address, profiles, numSiret);
 	}
 
+	public boolean versionIsChanged(long idContact, String version) {
+		return daoContact.versionIsChanged(idContact, version);
+	}
+
 	public boolean deleteContact(long id) {
 
 		return daoContact.deleteContact(id);
@@ -74,6 +78,11 @@ public class ContactService {
 	public boolean createContactGroup(String name) {
 
 		return daoContactGroup.createContactGroup(name);
+	}
+
+	public List<ContactGroup> getListContactGroupForOneContact(long id) {
+
+		return daoContactGroup.getListContactGroupForOneContact(id);
 	}
 
 	public boolean addContactToGroup(Long idGroupContact, long idContact) {

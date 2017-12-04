@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 	<%@page import="domain.*"%>
 <%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@ taglib prefix="html" uri="http://struts.apache.org/tags-html"%>
 <%@ taglib prefix="bean" uri="http://struts.apache.org/tags-bean"%>
 <%@ taglib prefix="nested" uri="http://struts.apache.org/tags-nested"%>
@@ -20,6 +21,7 @@ function dem(){
 	var email = document.getElementById('textBoxEmail').value;
 	var numSiret = document.getElementById('numSiretTextBox').value;
 	
+	//verification contact n'existe pas
 	<%List<Contact> contact = (List<Contact>) request.getServletContext().getAttribute("ListcontactResearch");%>
    <% for (int i=0;i<contact.size();i++) {%>
    var listFn = '<%= contact.get(i).getFirstName() %>';
@@ -32,6 +34,25 @@ function dem(){
    return false;
    }
    <% } %>
+   
+   //verification numSiret n'existe pas
+   <%List<Entreprise> listEntreprise = new ArrayList<Entreprise>();
+   for (int i=0;i<contact.size();i++) { %>
+   <%
+   			if(contact.get(i).getType().equals("Entreprise")){
+	  			 listEntreprise.add((Entreprise) contact.get(i));
+	  		  }}
+   %>
+   var numSiretValue 	= document.getElementById('numSiretTextBox').value;
+   <% for (int p=0;p<listEntreprise.size();p++) { %>
+  
+   if((numSiretValue == <%= listEntreprise.get(p).getNumSiret()%>))
+   {
+   alert('Ce num Siret est déja utiliser');
+   return false;
+   }
+   <% } %>
+   
 
    
 }

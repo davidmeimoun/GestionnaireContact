@@ -44,7 +44,13 @@
 						}
 						<% 
 					}
-					 %> document.location.href="../updateContact.do?id="+id;
+					 %>
+					 if(id == "undefined"){
+						 alert("Please choose a existant contact");
+					 }
+					 else{
+						 document.location.href="../updateContact.do?id="+id;
+					 }
 				}
 				
 			}

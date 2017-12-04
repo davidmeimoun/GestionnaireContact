@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+		<%@page import="domain.*"%>
+<%@page import="java.util.List"%>
+<%@page import="service.ContactService"%>
+<%@page import="domain.util.ApplicationContextUtils" %>
 <%@ taglib prefix="html" uri="http://struts.apache.org/tags-html"%>
 <%@ taglib prefix="bean" uri="http://struts.apache.org/tags-bean"%>
 <%@ taglib prefix="nested" uri="http://struts.apache.org/tags-nested"%>
@@ -29,6 +33,25 @@ function demarage(){
 	
 }
 
+function isVersionCHanged(){
+	var idContact = document.getElementById('idContactV').value;
+	var version = document.getElementById('versionV').value;
+ <% Contact c = (Contact) request.getServletContext().getAttribute("updateCont");
+ContactService cs = (ContactService) ApplicationContextUtils.getApplicationContext().getBean("ContactService");%>
+var result = <%=cs.versionIsChanged(c.getId_contact(), String.valueOf(c.getVersion()))%>
+
+	if(result == 'true'){
+		if (confirm('Le contact a été modifié voulez vous recharger la page ? ')) {
+			document.location.href="../updateContact.do?id="+ document.getElementById('idContactV').value;
+			alert("../updateContact.do?id="+ document.getElementById('idContactV').value);
+		} 
+		else{
+			return false;
+		}
+	}
+
+
+}
 
 	
 	
@@ -124,7 +147,8 @@ function activeNumSiret(){
 
 			<html:form action="/UpdateContactJ">
 
-				<html:hidden name="updateC" property="id" />
+				<html:hidden name="updateC" property="id" styleId="idContactV"/>
+				<html:hidden name="updateC" property="version" styleId="versionV" />
 						<div  class="row">
 
 			<div class="col-md-4">
@@ -346,7 +370,7 @@ Entreprise <input id="checkBoxEntreprise" type="checkbox" onclick="activeNumSire
 
 	</div>
 	<center>
-		<html:submit styleClass="btn btn-lg btn-warning">
+		<html:submit styleClass="btn btn-lg btn-warning" onclick="return isVersionCHanged()"  >
 			<bean:message key="label.button.update" />
 		</html:submit>
 	</center>

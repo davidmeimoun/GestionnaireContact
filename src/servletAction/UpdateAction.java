@@ -29,6 +29,7 @@ public class UpdateAction extends Action {
 		lForm.setFirstName(c.getFirstName());
 		lForm.setLastName(c.getLastName());
 		lForm.setEmail(c.getEmail());
+		lForm.setVersion(String.valueOf(c.getVersion()));
 		if (!c.getProfiles().isEmpty()) {
 			PhoneNumber[] tabPn = c.getProfiles().toArray(new PhoneNumber[c.getProfiles().size()]);
 			for (int i = 0; i < tabPn.length; i++) {
@@ -58,6 +59,7 @@ public class UpdateAction extends Action {
 		lForm.setCountry(c.getAddress().getCountry());
 
 		pRequest.getServletContext().setAttribute("updateC", lForm);
+		pRequest.getServletContext().setAttribute("updateCont", c);
 		if (idt > 0) {
 			// if no exception is raised,
 			return pMapping.findForward("success");

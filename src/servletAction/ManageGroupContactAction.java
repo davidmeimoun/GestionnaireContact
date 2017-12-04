@@ -11,6 +11,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import domain.Contact;
+import domain.ContactGroup;
 import domain.util.ApplicationContextUtils;
 import service.ContactService;
 
@@ -24,8 +25,10 @@ public class ManageGroupContactAction extends Action {
 		ContactService cs = (ContactService) ApplicationContextUtils.getApplicationContext().getBean("ContactService");
 		List<Contact> listContactInGroup = cs.listContactInGroup(idGroup);
 		List<Contact> listContactOutsideGroup = cs.listContactOutsideGroup(idGroup);
+		ContactGroup cg = cs.getContactGroup(idGroup);
 		pRequest.getServletContext().setAttribute("ListContactInGroup", listContactInGroup);
 		pRequest.getServletContext().setAttribute("listContactOutsideGroup", listContactOutsideGroup);
+		pRequest.getServletContext().setAttribute("contactGroup", cg);
 		return pMapping.findForward("success");
 	}
 }

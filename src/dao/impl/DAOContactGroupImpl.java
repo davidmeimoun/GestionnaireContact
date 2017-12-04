@@ -1,5 +1,6 @@
 package dao.impl;
 
+import java.util.HashSet;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -39,7 +40,11 @@ public class DAOContactGroupImpl extends HibernateDaoSupport implements IDAOCont
 		try {
 			ContactGroup cg = getContactGroup(idGroupContact);
 			Contact c = getHibernateTemplate().get(Contact.class, idContact);
+			if(cg.getContacts()==null)
+				cg.setContacts(new HashSet<Contact>());
 			cg.getContacts().add(c);
+			if(c.getBooks() == null)
+				c.setBooks(new HashSet<ContactGroup>());
 			c.getBooks().add(cg);
 			getHibernateTemplate().saveOrUpdate(cg);
 			return true;
@@ -133,15 +138,13 @@ public class DAOContactGroupImpl extends HibernateDaoSupport implements IDAOCont
 		System.out.println("Début de deleteGroupContact() avec idGroup = " + idGroup);
 		try {
 
-			Session session = HibernateUtil.getSessionFactory().openSession();
-			session.beginTransaction();
 			ContactGroup contactGroup = getContactGroup(idGroup);
 			DetachedCriteria filter = DetachedCriteria.forClass(Contact.class).createCriteria("books");
 			filter.add(Restrictions.like("id_contactGroup", idGroup));
 			List<Contact> listContactInGroup = (List<Contact>) getHibernateTemplate().findByCriteria(filter);
 			for (Contact contact : listContactInGroup) {
 				contact.getBooks().remove(contactGroup);
-				session.update(contact);
+				getHibernateTemplate().update(contact);
 			}
 			contactGroup.setContacts(null);
 			getHibernateTemplate().update(contactGroup);
@@ -151,6 +154,28 @@ public class DAOContactGroupImpl extends HibernateDaoSupport implements IDAOCont
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public List<ContactGroup> getListContactGroupForOneContact(long id) {
+
+		try {
+			DetachedCriteria filter = DetachedCriteria.forClass(ContactGroup.class).createCriteria("contacts");
+			filter.add(Restrictions.like("id_contact", id));
+			return (List<ContactGroup>) getHibernateTemplate().findByCriteria(filter);
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
+	@Override
+	public void generateGroupContact() {
+		createContactGroup("Parent");
+		addContactToGroup(1L, 1L);
+		addContactToGroup(1L, 2L);
+		
 	}
 
 }

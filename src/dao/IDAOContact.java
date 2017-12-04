@@ -23,5 +23,10 @@ public interface IDAOContact {
 
 	public Contact updateContact(Contact c, String fname, String lname, String email, Address address,
 			Set<PhoneNumber> profiles, int siretnum);
+	
+	public Contact updateContact2(Contact c, String fname, String lname, String email, Address address,
+			Set<PhoneNumber> profiles, int siretnum);
+
+	public boolean versionIsChanged(long idContact, String version);
 
 }

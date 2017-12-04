@@ -17,6 +17,7 @@ public class UpdateContactValidationForm extends ActionForm {
 	 */
 	private static final long serialVersionUID = 1L;
 	private int id;
+	private String version;
 	private String numSiret;
 	private String lastName;
 	private String firstName;
@@ -49,6 +50,17 @@ public class UpdateContactValidationForm extends ActionForm {
 		this.zip = null;
 		this.country = null;
 	}
+	
+
+	public String getVersion() {
+		return version;
+	}
+
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
 
 	public String getNumSiret() {
 		return numSiret;

@@ -40,7 +40,8 @@ public class UpdateContactAction extends Action {
 		final String city = lForm.getCity();
 		final String zip = lForm.getZip();
 		final String country = lForm.getCountry();
-
+		final String version = lForm.getVersion();
+		
 		// create a new Contact
 		ContactService cs = (ContactService) ApplicationContextUtils.getApplicationContext().getBean("ContactService");
 		Contact contactTmp = cs.getContact(id);
@@ -60,14 +61,15 @@ public class UpdateContactAction extends Action {
 			sPn.add(pn3);
 		}
 
+
 		Contact c = cs.updateContact(contactTmp, firstName, lastName, email, address, sPn, Integer.parseInt(numSiret));
 		List<Contact> lc = cs.listContact();
 
 		pRequest.getServletContext().setAttribute("ListcontactResearch", lc);
-		if (c == null) {
-			return pMapping.findForward("error");
-		} else {
+		if (c != null) {
 			return pMapping.findForward("success");
+		} else {
+			return pMapping.findForward("error");
 		}
 	}
 

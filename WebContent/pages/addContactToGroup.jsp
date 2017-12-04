@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"%>
+<%@page import="domain.ContactGroup"%>
 <%@ taglib prefix="html" uri="http://struts.apache.org/tags-html"%>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic"%>
 <%@ taglib prefix="bean" uri="http://struts.apache.org/tags-bean"%>
@@ -19,8 +20,8 @@
 </head>
 
 <body>
-
-
+    <% ContactGroup cg = (ContactGroup) request.getServletContext().getAttribute("contactGroup");%>
+    	<h1>Group : <%= cg.getGroupName() %>  </h1>
 	    <nav class="navbar navbar-inverse navbar-fixed-top">
 	        <div class="container">
 	            <div class="navbar-header">

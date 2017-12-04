@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.stat.Statistics;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
 import dao.IDAOContact;
@@ -13,6 +16,7 @@ import domain.Address;
 import domain.Contact;
 import domain.Entreprise;
 import domain.PhoneNumber;
+import domain.util.HibernateUtil;
 
 public class DAOContactImpl extends HibernateDaoSupport implements IDAOContact {
 
@@ -70,6 +74,9 @@ public class DAOContactImpl extends HibernateDaoSupport implements IDAOContact {
 
 	public Contact getContact(long id) {
 		try {
+			//String hql = "from Contact_table c where c.ID_CONTACT = :idContact";
+			//return (Contact) getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery(hql).setLong("idContact", id);
+
 			return getHibernateTemplate().get(Contact.class, id);
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -127,7 +134,41 @@ public class DAOContactImpl extends HibernateDaoSupport implements IDAOContact {
 				}
 			}
 			c.setProfiles(profiles);
-			getHibernateTemplate().merge(c);
+			getHibernateTemplate().update(c);
+			return c;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public Contact updateContact2(Contact c, String fname, String lname, String email, Address address,
+			Set<PhoneNumber> profiles, int siretnum) {
+		try {
+			if (siretnum <= 0) {
+				if (c instanceof Entreprise) {
+					c.setType("Contact");
+				}
+			} else {
+				if (c instanceof Entreprise) {
+					c.setType("Entreprise");
+				}
+			}
+			Contact ctmp = getContact(c.getId_contact());
+			ctmp.setFirstName(fname);
+			ctmp.setLastName(lname);
+			ctmp.setEmail(email);
+			ctmp.setAddress(address);
+			ctmp.setProfiles(profiles);
+
+			if (profiles != null) {
+				for (PhoneNumber profile : profiles) {
+					profile.setContact(c);
+					c.getProfiles().add(profile);
+				}
+			}
+			c.setProfiles(profiles);
+			getHibernateTemplate().update(c);
 			return c;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -271,6 +312,16 @@ public class DAOContactImpl extends HibernateDaoSupport implements IDAOContact {
 			addContact(prenoms[i], nom[i], prenoms[i] + "." + nom[i] + "@gmail.com", add, spn, 0);
 		}
 
+	}
+
+	@Override
+	public boolean versionIsChanged(long idContact, String versionActuelle) {
+		String versionBDD = String.valueOf(getHibernateTemplate().get(Contact.class, idContact).getVersion());
+		if (versionBDD.equals(versionActuelle)) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }

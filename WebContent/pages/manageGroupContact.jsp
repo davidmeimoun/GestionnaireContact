@@ -1,3 +1,4 @@
+<%@page import="domain.ContactGroup"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"%>
 <%@ taglib prefix="html" uri="http://struts.apache.org/tags-html"%>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
@@ -16,7 +17,7 @@
     </head>
     
     <body>
-    
+
     
          <nav class="navbar navbar-inverse navbar-fixed-top">
                 <div class="container">
