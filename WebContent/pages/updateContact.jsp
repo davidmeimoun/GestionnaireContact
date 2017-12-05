@@ -10,6 +10,12 @@
 <script type="text/javascript">
 
 function demarage(){
+	var bool = <%= request.getServletContext().getAttribute("versionChanged")%>
+	if(bool){
+		alert("The contact has been update, please click on OK for refresh the page");
+		document.location.href="../updateContact.do?id="+ document.getElementById('idContactV').value;
+		<% request.getServletContext().setAttribute("versionChanged",false);%>
+	}
 	
 	var x = document.getElementById('numSiretTextBox');
 	var checkbox = document.getElementById('checkBoxEntreprise');
@@ -33,25 +39,6 @@ function demarage(){
 	
 }
 
-function isVersionCHanged(){
-	var idContact = document.getElementById('idContactV').value;
-	var version = document.getElementById('versionV').value;
- <% Contact c = (Contact) request.getServletContext().getAttribute("updateCont");
-ContactService cs = (ContactService) ApplicationContextUtils.getApplicationContext().getBean("ContactService");%>
-var result = <%=cs.versionIsChanged(c.getId_contact(), String.valueOf(c.getVersion()))%>
-
-	if(result == 'true'){
-		if (confirm('Le contact a été modifié voulez vous recharger la page ? ')) {
-			document.location.href="../updateContact.do?id="+ document.getElementById('idContactV').value;
-			alert("../updateContact.do?id="+ document.getElementById('idContactV').value);
-		} 
-		else{
-			return false;
-		}
-	}
-
-
-}
 
 	
 	

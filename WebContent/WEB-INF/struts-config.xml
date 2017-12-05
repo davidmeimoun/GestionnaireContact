@@ -90,6 +90,7 @@
 			name="UpdateContactValidationForm" scope="request" input="/pages/updateContact.jsp">
 			<forward name="success" path="/pages/ResearchContact.jsp" />
 			<forward name="error" path="/pages/error.jsp" />
+			<forward name="same"  path="/updateContact.do" redirect="true"/>
 		</action>
 
 

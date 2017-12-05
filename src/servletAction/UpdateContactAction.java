@@ -11,6 +11,7 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionRedirect;
 
 import actionForm.UpdateContactValidationForm;
 import domain.Address;
@@ -41,7 +42,7 @@ public class UpdateContactAction extends Action {
 		final String zip = lForm.getZip();
 		final String country = lForm.getCountry();
 		final String version = lForm.getVersion();
-		
+
 		// create a new Contact
 		ContactService cs = (ContactService) ApplicationContextUtils.getApplicationContext().getBean("ContactService");
 		Contact contactTmp = cs.getContact(id);
@@ -62,14 +63,22 @@ public class UpdateContactAction extends Action {
 		}
 
 
-		Contact c = cs.updateContact(contactTmp, firstName, lastName, email, address, sPn, Integer.parseInt(numSiret));
-		List<Contact> lc = cs.listContact();
 
-		pRequest.getServletContext().setAttribute("ListcontactResearch", lc);
-		if (c != null) {
-			return pMapping.findForward("success");
+		if (cs.versionIsChanged(id, version)) {
+			pRequest.getServletContext().setAttribute("versionChanged", true);
+			ActionRedirect redirect = new ActionRedirect(pMapping.findForward("same"));
+			redirect.addParameter("id", id);
+			return redirect;
 		} else {
-			return pMapping.findForward("error");
+			Contact c = cs.updateContact(contactTmp, firstName, lastName, email, address, sPn, Integer.parseInt(numSiret));
+			List<Contact> lc = cs.listContact();
+			pRequest.getServletContext().setAttribute("versionChanged", false);
+			pRequest.getServletContext().setAttribute("ListcontactResearch", lc);
+			if (c != null) {
+				return pMapping.findForward("success");
+			} else {
+				return pMapping.findForward("error");
+			}
 		}
 	}
 
