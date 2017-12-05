@@ -18,7 +18,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/hibernate_db" />
 		<property name="username" value="root" />
-		<property name="password" value="" />
+		<property name="password" value="root" />
 	</bean>
 
 	<bean id="sessionFactory"
@@ -105,12 +105,23 @@
 			<ref bean="DAOContactGroup" />
 		</constructor-arg>
 				<property name="sessionFactory" ref="sessionFactory" />
-		<!-- <property name="sessionFactory" ref="sessionFactory" /> -->
 	</bean>
 	<bean id="DAOContactGroup" class="dao.impl.DAOContactGroupImpl" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
-		<!-- <property name="sessionFactory" ref="sessionFactory" /> -->
 	</bean>
+	
+	<bean id="DAOContactGroup2" class="dao.impl.DAOContactGroupImpl2" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+		<bean id="DAOContact2" class="dao.impl.DAOContactImpl2" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+		<bean id="DAOEntreprise" class="dao.impl.DAOEntrepriseImpl" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
 
 
 </beans>

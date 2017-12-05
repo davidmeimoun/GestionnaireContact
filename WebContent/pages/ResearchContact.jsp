@@ -49,7 +49,7 @@
 						 alert("Please choose a existant contact");
 					 }
 					 else{
-						 document.location.href="../updateContact.do?id="+id;
+						 document.location.href="./updateContact.do?id="+id;
 					 }
 				}
 				

@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.stat.Statistics;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
 import dao.IDAOContact;
@@ -16,7 +13,6 @@ import domain.Address;
 import domain.Contact;
 import domain.Entreprise;
 import domain.PhoneNumber;
-import domain.util.HibernateUtil;
 
 public class DAOContactImpl extends HibernateDaoSupport implements IDAOContact {
 
@@ -74,8 +70,11 @@ public class DAOContactImpl extends HibernateDaoSupport implements IDAOContact {
 
 	public Contact getContact(long id) {
 		try {
-			//String hql = "from Contact_table c where c.ID_CONTACT = :idContact";
-			//return (Contact) getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery(hql).setLong("idContact", id);
+			// String hql = "from Contact_table c where c.ID_CONTACT =
+			// :idContact";
+			// return (Contact)
+			// getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery(hql).setLong("idContact",
+			// id);
 
 			return getHibernateTemplate().get(Contact.class, id);
 		} catch (HibernateException e) {
@@ -141,7 +140,7 @@ public class DAOContactImpl extends HibernateDaoSupport implements IDAOContact {
 			return null;
 		}
 	}
-	
+
 	public Contact updateContact2(Contact c, String fname, String lname, String email, Address address,
 			Set<PhoneNumber> profiles, int siretnum) {
 		try {

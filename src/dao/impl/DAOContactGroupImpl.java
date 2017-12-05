@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
@@ -12,7 +11,6 @@ import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import dao.IDAOContactGroup;
 import domain.Contact;
 import domain.ContactGroup;
-import domain.util.HibernateUtil;
 
 public class DAOContactGroupImpl extends HibernateDaoSupport implements IDAOContactGroup {
 
@@ -40,10 +38,10 @@ public class DAOContactGroupImpl extends HibernateDaoSupport implements IDAOCont
 		try {
 			ContactGroup cg = getContactGroup(idGroupContact);
 			Contact c = getHibernateTemplate().get(Contact.class, idContact);
-			if(cg.getContacts()==null)
+			if (cg.getContacts() == null)
 				cg.setContacts(new HashSet<Contact>());
 			cg.getContacts().add(c);
-			if(c.getBooks() == null)
+			if (c.getBooks() == null)
 				c.setBooks(new HashSet<ContactGroup>());
 			c.getBooks().add(cg);
 			getHibernateTemplate().saveOrUpdate(cg);
@@ -117,7 +115,6 @@ public class DAOContactGroupImpl extends HibernateDaoSupport implements IDAOCont
 	}
 
 	public boolean deleteContactFromAllGroup(long idContact) {
-		System.out.println("Début de deleteContactFromAllGroup() avec idContact = " + idContact);
 		try {
 			Contact contact = getHibernateTemplate().get(Contact.class, idContact);
 			List<ContactGroup> lcontactGroup = listGroupContact();
@@ -134,6 +131,7 @@ public class DAOContactGroupImpl extends HibernateDaoSupport implements IDAOCont
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public boolean deleteGroupContact(long idGroup) {
 		System.out.println("Début de deleteGroupContact() avec idGroup = " + idGroup);
 		try {
@@ -156,6 +154,7 @@ public class DAOContactGroupImpl extends HibernateDaoSupport implements IDAOCont
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<ContactGroup> getListContactGroupForOneContact(long id) {
 
@@ -175,7 +174,7 @@ public class DAOContactGroupImpl extends HibernateDaoSupport implements IDAOCont
 		createContactGroup("Parent");
 		addContactToGroup(1L, 1L);
 		addContactToGroup(1L, 2L);
-		
+
 	}
 
 }
