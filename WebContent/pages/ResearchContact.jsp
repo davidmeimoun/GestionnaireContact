@@ -27,7 +27,7 @@
 					source: nameContact
 				});
 			});
-			function mafonction(){
+			function mafonction(lien){
 				 var nameContact = [];
 				 var idContact = [];
 				var name = document.getElementById('month').value;
@@ -49,7 +49,7 @@
 						 alert("Please choose a existant contact");
 					 }
 					 else{
-						 document.location.href="../updateContact.do?id="+id;
+						 document.location.href="../"+lien+".do?id="+id;
 					 }
 				}
 				
@@ -76,7 +76,8 @@
 			</div>
 			<div class="col-md-6" >
 				<input id="month">
-				<button type="button" onclick="mafonction()">Rechercher </button>
+				<button type="button" onclick='mafonction("ViewAContact")'>Voir </button>
+				<button type="button" onclick='mafonction("updateContact")'>Update </button>
 			</div>
 		</div>
 		<div class="row col-md-6 col-md-offset-2 custyle">

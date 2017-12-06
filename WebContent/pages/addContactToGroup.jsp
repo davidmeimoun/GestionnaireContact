@@ -130,11 +130,14 @@
                                         <TD class="text-center">
                                         <a class="btn btn-info" href="../ViewAGroupContact.do?id=<bean:write name="contact" property="id_contact"/>"><span class="glyphicon glyphicon-eye-open "></span><bean:message key="menu.viewGroupcontact.link"/></a>
                                         </TD>
-                                       
+                                       -->
                                         <TD class="text-center">
-                                        <a class="btn btn-warning" href="../AddContactToGroup.do?idGroup=<%out.println(request.getParameter("idGroup")); %>&idContact=<bean:write name="contact" property="id_contact"/>"><span class="glyphicon glyphicon-pencil "></span><bean:message key="menu.addGroupcontact.link"/></a>
+                                        								<a class="btn btn-info" href="../ViewAContact.do?id=<bean:write name="contact" property="id_contact"/>">
+									<span class="glyphicon glyphicon-eye-open "></span>
+									<bean:message key="menu.viewcontact.link"/>
+								</a>
                                         </TD>
-                                          -->
+                                          
                                         <TD class="text-center"> 
                                          <a class="btn btn-danger" href="../DeleteContactInGroup.do?idGroup=<%out.println(request.getParameter("idGroup")); %>&idContact=<bean:write name="contact" property="id_contact"/>"><span class="glyphicon glyphicon-trash "></span><bean:message key="menu.deleteGroupcontact.link"/></a>
 						</tr>
