@@ -14,29 +14,79 @@ import domain.ContactGroup;
 
 public class DAOContactGroupImpl extends HibernateDaoSupport implements IDAOContactGroup {
 
-	public DAOContactGroupImpl() {
-		super();
+	@Override
+	public boolean add(ContactGroup object) {
+		try {
+			long id = (long) getHibernateTemplate().save(object);
+			if (id >= 0) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
-	public boolean createContactGroup(String name) {
-
-		ContactGroup contactGroup = new ContactGroup();
-		contactGroup.setGroupName(name);
-
+	@Override
+	public ContactGroup get(long id) {
 		try {
-			getHibernateTemplate().save(contactGroup);
+			return getHibernateTemplate().get(ContactGroup.class, id);
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public boolean delete(long id) {
+		try {
+			ContactGroup c = getHibernateTemplate().get(ContactGroup.class, id);
+			getHibernateTemplate().delete(c);
 			return true;
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			return false;
 		}
-
 	}
 
-	public boolean addContactToGroup(Long idGroupContact, Long idContact) {
-
+	@Override
+	public boolean update(ContactGroup object) {
 		try {
-			ContactGroup cg = getContactGroup(idGroupContact);
+			getHibernateTemplate().update(object);
+			return true;
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ContactGroup> getList() {
+		try {
+			return (List<ContactGroup>) getHibernateTemplate().find(" from ContactGroup");
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public long addId(ContactGroup object) {
+		try {
+			return (long) getHibernateTemplate().save(object);
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return 0L;
+		}
+	}
+
+	@Override
+	public boolean addContactToGroup(Long idGroupContact, Long idContact) {
+		try {
+			ContactGroup cg = getHibernateTemplate().get(ContactGroup.class, idGroupContact);
 			Contact c = getHibernateTemplate().get(Contact.class, idContact);
 			if (cg.getContacts() == null)
 				cg.setContacts(new HashSet<Contact>());
@@ -53,41 +103,10 @@ public class DAOContactGroupImpl extends HibernateDaoSupport implements IDAOCont
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<ContactGroup> listGroupContact() {
-		try {
-			return (List<ContactGroup>) getHibernateTemplate().find(" from ContactGroup");
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			return null;
-		}
-
-	}
-
-	public ContactGroup getContactGroup(long id) {
-		try {
-			return getHibernateTemplate().get(ContactGroup.class, id);
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Contact> listContactInGroup(long idGroup) {
-		try {
-			DetachedCriteria filter = DetachedCriteria.forClass(Contact.class).createCriteria("books");
-			filter.add(Restrictions.like("id_contactGroup", idGroup));
-			return (List<Contact>) getHibernateTemplate().findByCriteria(filter);
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Contact> listContactOutsideGroup(long idGroup) {
+	@Override
+	public List<Contact> listContactOutsideGroup(Long idGroupContact) {
 		DetachedCriteria filter = DetachedCriteria.forClass(Contact.class).createCriteria("books");
-		filter.add(Restrictions.like("id_contactGroup", idGroup));
+		filter.add(Restrictions.like("id_contactGroup", idGroupContact));
 		List<Contact> listContactInGroup = (List<Contact>) getHibernateTemplate().findByCriteria(filter);
 		List<Contact> listAllContact = (List<Contact>) getHibernateTemplate()
 				.findByCriteria(DetachedCriteria.forClass(Contact.class));
@@ -97,27 +116,24 @@ public class DAOContactGroupImpl extends HibernateDaoSupport implements IDAOCont
 		return listAllContact;
 	}
 
-	public boolean deleteContactFromGroup(long idGroup, long idContact) {
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Contact> listContactInGroup(Long idGroupContact) {
 		try {
-
-			Contact contact = getHibernateTemplate().get(Contact.class, idContact);
-			ContactGroup contactGroup = getContactGroup(idGroup);
-			boolean result = contact.getBooks().remove(contactGroup);
-			boolean result2 = contactGroup.getContacts().remove(contact);
-			getHibernateTemplate().update(contact);
-			getHibernateTemplate().update(contactGroup);
-
-			return result & result2;
+			DetachedCriteria filter = DetachedCriteria.forClass(Contact.class).createCriteria("books");
+			filter.add(Restrictions.like("id_contactGroup", idGroupContact));
+			return (List<Contact>) getHibernateTemplate().findByCriteria(filter);
 		} catch (HibernateException e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
 	}
 
+	@Override
 	public boolean deleteContactFromAllGroup(long idContact) {
 		try {
 			Contact contact = getHibernateTemplate().get(Contact.class, idContact);
-			List<ContactGroup> lcontactGroup = listGroupContact();
+			List<ContactGroup> lcontactGroup = getList();
 			for (ContactGroup contactGroup : lcontactGroup) {
 				if (contactGroup.getContacts().contains(contact)) {
 					contactGroup.getContacts().remove(contact);
@@ -131,33 +147,46 @@ public class DAOContactGroupImpl extends HibernateDaoSupport implements IDAOCont
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public boolean deleteGroupContact(long idGroup) {
-		System.out.println("Début de deleteGroupContact() avec idGroup = " + idGroup);
+	@Override
+	public boolean deleteContactFromGroup(long idGroup, long idContact) {
 		try {
 
-			ContactGroup contactGroup = getContactGroup(idGroup);
-			DetachedCriteria filter = DetachedCriteria.forClass(Contact.class).createCriteria("books");
-			filter.add(Restrictions.like("id_contactGroup", idGroup));
-			List<Contact> listContactInGroup = (List<Contact>) getHibernateTemplate().findByCriteria(filter);
-			for (Contact contact : listContactInGroup) {
-				contact.getBooks().remove(contactGroup);
-				getHibernateTemplate().update(contact);
-			}
-			contactGroup.setContacts(null);
+			Contact contact = getHibernateTemplate().get(Contact.class, idContact);
+			ContactGroup contactGroup = get(idGroup);
+			boolean result = contact.getBooks().remove(contactGroup);
+			boolean result2 = contactGroup.getContacts().remove(contact);
+			getHibernateTemplate().update(contact);
 			getHibernateTemplate().update(contactGroup);
-			getHibernateTemplate().delete(contactGroup);
-			return true;
+
+			return result & result2;
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			return false;
 		}
 	}
 
+	@Override
+	public void generate() {
+		String groupName[] = { "Friends", "Family", "Nanterre", "Chicago", "Work", "Societe General" };
+		for (int j = 0; j < groupName.length; j++) {
+			ContactGroup cg = new ContactGroup(groupName[j]);
+			add(cg);
+		}
+
+		for (long i = 1; i <= groupName.length; i++) {
+			int aleatoireNombrePersonneDansGroupe = (int) (Math.random() * (10 - 1 + 1)) + 1;
+			for (int j = 0; j < aleatoireNombrePersonneDansGroupe; j++) {
+
+				long aleatoireNombreEtudiant = (long) (Math.random() * (100 - 1 + 1)) + 1;
+				addContactToGroup( i, aleatoireNombreEtudiant);
+			}
+		}
+
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ContactGroup> getListContactGroupForOneContact(long id) {
-
 		try {
 			DetachedCriteria filter = DetachedCriteria.forClass(ContactGroup.class).createCriteria("contacts");
 			filter.add(Restrictions.like("id_contact", id));
@@ -166,14 +195,6 @@ public class DAOContactGroupImpl extends HibernateDaoSupport implements IDAOCont
 			e.printStackTrace();
 			return null;
 		}
-
-	}
-
-	@Override
-	public void generateGroupContact() {
-		createContactGroup("Parent");
-		addContactToGroup(1L, 1L);
-		addContactToGroup(1L, 2L);
 
 	}
 

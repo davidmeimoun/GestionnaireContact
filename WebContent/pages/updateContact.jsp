@@ -13,7 +13,7 @@ function demarage(){
 	var bool = <%= request.getServletContext().getAttribute("versionChanged")%>
 	if(bool){
 		alert("The contact has been update, please click on OK for refresh the page");
-		document.location.href="../updateContact.do?id="+ document.getElementById('idContactV').value;
+		document.location.href="./updateContact.do?id="+ document.getElementById('idContactV').value;
 		<% request.getServletContext().setAttribute("versionChanged",false);%>
 	}
 	

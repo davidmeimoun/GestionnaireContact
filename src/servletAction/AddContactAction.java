@@ -42,24 +42,13 @@ public class AddContactAction extends Action {
 		// create a new Contact
 		ContactService cs = new ContactService();
 		cs = (ContactService) ApplicationContextUtils.getApplicationContext().getBean("ContactService");
-		Address add = new Address(street, city, zip, country);
-		Set<PhoneNumber> sPn = new HashSet<PhoneNumber>();
-		PhoneNumber pn = new PhoneNumber(phoneKind1, phoneNumber1, null);
-		sPn.add(pn);
-		if (phoneKind2 != null && !phoneKind2.isEmpty() && phoneNumber2 != null && !phoneNumber2.isEmpty()) {
-			PhoneNumber pn2 = new PhoneNumber(phoneKind2, phoneNumber2, null);
-			sPn.add(pn2);
-		}
-		if (phoneKind3 != null && !phoneKind3.isEmpty() && phoneNumber3 != null && !phoneNumber3.isEmpty()) {
-			PhoneNumber pn3 = new PhoneNumber(phoneKind3, phoneNumber3, null);
-			sPn.add(pn3);
-		}
-		Contact c = cs.addContact(firstName, lastName, email, add, sPn, Integer.parseInt(numSiret));
+
+		boolean result = cs.add(firstName, lastName, email, street, city, zip, country, phoneNumber1, phoneKind1,phoneNumber2, phoneKind2,phoneNumber3, phoneKind3, Integer.parseInt(numSiret));
 
 		List<Contact> lc = cs.listContact();
 		pRequest.getServletContext().setAttribute("ListcontactResearch", lc);
-		pRequest.setAttribute("contact", c);
-		if (c != null) {
+		//pRequest.setAttribute("contact", c);
+		if (result) {
 			return pMapping.findForward("success");
 		} else {
 			return pMapping.findForward("error");

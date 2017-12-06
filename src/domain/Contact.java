@@ -57,6 +57,7 @@ public class Contact {
 		this.email = email;
 		this.address = address;
 		this.profiles = profiles;
+		this.type = "Contact";
 	}
 
 	public Contact() {

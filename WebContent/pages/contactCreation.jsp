@@ -21,6 +21,12 @@ function dem(){
 	var email = document.getElementById('textBoxEmail').value;
 	var numSiret = document.getElementById('numSiretTextBox').value;
 	
+	   if(numSiret <= 0 && document.getElementById('checkBoxEntreprise').checked  )
+	   {
+	   alert('Une entreprise ne peux pas avoir un num Siret negatif ou égal à zero');
+	   return false;
+	   }
+	   
 	//verification contact n'existe pas
 	<%List<Contact> contact = (List<Contact>) request.getServletContext().getAttribute("ListcontactResearch");%>
    <% for (int i=0;i<contact.size();i++) {%>
@@ -152,7 +158,7 @@ Entreprise <input id="checkBoxEntreprise" type="checkbox" onclick="activeNumSire
 				<br>
 				<span style="color: red"><html:errors property="numSiret" /></span>
 				<br>
-				<html:text styleId="numSiretTextBox" property="numSiret" size="20" maxlength="20" value="0"
+				<html:text styleId="numSiretTextBox" property="numSiret" size="20" maxlength="10" value="0"
 					styleClass="form-control" />
 			</div>
 			

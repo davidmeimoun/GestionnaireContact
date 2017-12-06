@@ -18,7 +18,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/hibernate_db" />
 		<property name="username" value="root" />
-		<property name="password" value="root" />
+		<property name="password" value="" />
 	</bean>
 
 	<bean id="sessionFactory"
@@ -71,7 +71,7 @@
 			<tx:method name="create*" read-only="false" />
 			<tx:method name="add*" read-only="false" />
 			<tx:method name="generate*" read-only="false" />
-			<tx:method name="modify*" read-only="false" />
+			<tx:method name="update" read-only="false" />
 			<tx:method name="delete*" propagation="REQUIRED" />
 			 <tx:method name="*" />
 		</tx:attributes>
@@ -93,24 +93,23 @@
 	<bean id="ContactService" class="service.ContactService" scope="singleton">
 		<property name="daoContact" ref="DAOContact" />
 		<property name="daoContactGroup" ref="DAOContactGroup" />
+		<property name="daoEntreprise" ref="DAOEntreprise"/>
 	</bean>
 
 
 	<!-- ** Dao Implems ** -->
 
 
-	<bean id="DAOContact" class="dao.impl.DAOContactImpl" scope="singleton">
-
-		<constructor-arg>
-			<ref bean="DAOContactGroup" />
-		</constructor-arg>
-				<property name="sessionFactory" ref="sessionFactory" />
-		<!-- <property name="sessionFactory" ref="sessionFactory" /> -->
-	</bean>
 	<bean id="DAOContactGroup" class="dao.impl.DAOContactGroupImpl" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
-		<!-- <property name="sessionFactory" ref="sessionFactory" /> -->
 	</bean>
-
+	
+		<bean id="DAOContact" class="dao.impl.DAOContactImpl" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+		<bean id="DAOEntreprise" class="dao.impl.DAOEntrepriseImpl" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 
 </beans>

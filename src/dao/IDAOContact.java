@@ -1,32 +1,12 @@
 package dao;
 
-import java.util.List;
-import java.util.Set;
-
-import domain.Address;
 import domain.Contact;
-import domain.PhoneNumber;
 
-public interface IDAOContact {
-	public Contact addContact(String fname, String lname, String email, Address address, Set<PhoneNumber> phones,
-			int numSiret);
+public interface IDAOContact extends IDAO<Contact> {
 
-	public boolean deleteContact(long id);
+	long addId(Contact object);
 
-	public void generateContact();
+	boolean versionIsChanged(long idContact, String versionActuelle);
 
-	public List<Contact> listContact();
-
-	public Contact getContact(long id);
-
-	public int getNumSiretEntreprise(long id);
-
-	public Contact updateContact(Contact c, String fname, String lname, String email, Address address,
-			Set<PhoneNumber> profiles, int siretnum);
-	
-	public Contact updateContact2(Contact c, String fname, String lname, String email, Address address,
-			Set<PhoneNumber> profiles, int siretnum);
-
-	public boolean versionIsChanged(long idContact, String version);
 
 }

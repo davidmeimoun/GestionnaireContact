@@ -25,6 +25,10 @@ public class ContactGroup {
 		super();
 	}
 
+	public ContactGroup(String groupName) {
+		this.groupName = groupName;
+	}
+
 	public long getId_contactGroup() {
 		return id_contactGroup;
 	}

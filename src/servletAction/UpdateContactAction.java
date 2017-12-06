@@ -1,8 +1,6 @@
 package servletAction;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,11 +10,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.springframework.orm.hibernate4.HibernateOptimisticLockingFailureException;
 
 import actionForm.UpdateContactValidationForm;
-import domain.Address;
 import domain.Contact;
-import domain.PhoneNumber;
 import domain.util.ApplicationContextUtils;
 import service.ContactService;
 
@@ -45,41 +42,33 @@ public class UpdateContactAction extends Action {
 
 		// create a new Contact
 		ContactService cs = (ContactService) ApplicationContextUtils.getApplicationContext().getBean("ContactService");
-		Contact contactTmp = cs.getContact(id);
-		Address address = new Address(street, city, zip, country);
-		PhoneNumber pn1 = new PhoneNumber(phoneKind1, phoneNumber1, null);
-		PhoneNumber pn2;
-		PhoneNumber pn3;
-		Set<PhoneNumber> sPn = new HashSet<PhoneNumber>();
-		sPn.add(pn1);
-		if (phoneKind2 != null && phoneNumber2 != null) {
-			pn2 = new PhoneNumber(phoneKind2, phoneNumber2, null);
-			sPn.add(pn2);
-		}
 
-		if (phoneKind3 != null && phoneNumber3 != null) {
-			pn3 = new PhoneNumber(phoneKind3, phoneNumber3, null);
-			sPn.add(pn3);
-		}
+		try {
+			if (!cs.versionIsChanged(id, version)) {
 
-
-
-		if (cs.versionIsChanged(id, version)) {
-			pRequest.getServletContext().setAttribute("versionChanged", true);
-			ActionRedirect redirect = new ActionRedirect(pMapping.findForward("same"));
-			redirect.addParameter("id", id);
-			return redirect;
-		} else {
-			Contact c = cs.updateContact(contactTmp, firstName, lastName, email, address, sPn, Integer.parseInt(numSiret));
-			List<Contact> lc = cs.listContact();
-			pRequest.getServletContext().setAttribute("versionChanged", false);
-			pRequest.getServletContext().setAttribute("ListcontactResearch", lc);
-			if (c != null) {
-				return pMapping.findForward("success");
+				boolean result = cs.update(id, firstName, lastName, email, street, city, zip, country, phoneNumber1,
+						phoneKind1, phoneNumber2, phoneKind2, phoneNumber3, phoneKind3, Integer.parseInt(numSiret));
+				List<Contact> lc = cs.listContact();
+				pRequest.getServletContext().setAttribute("versionChanged", false);
+				pRequest.getServletContext().setAttribute("ListcontactResearch", lc);
+				if (result) {
+					return pMapping.findForward("success");
+				} else {
+					return pMapping.findForward("error");
+				}
 			} else {
-				return pMapping.findForward("error");
+				pRequest.getServletContext().setAttribute("versionChanged", true);
+				ActionRedirect redirect = new ActionRedirect(pMapping.findForward("same"));
+				redirect.addParameter("id", id);
+				return redirect;
 			}
+		} catch (HibernateOptimisticLockingFailureException e) {
+			e.printStackTrace();
+			return pMapping.findForward("error");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return pMapping.findForward("error");
 		}
 	}
-
 }

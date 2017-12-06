@@ -5,28 +5,18 @@ import java.util.List;
 import domain.Contact;
 import domain.ContactGroup;
 
-public interface IDAOContactGroup {
+public interface IDAOContactGroup extends IDAO<ContactGroup> {
+	long addId(ContactGroup c);
 
-	public boolean createContactGroup(String name);
+	boolean addContactToGroup(Long idGroupContact, Long idContact);
 
-	public boolean addContactToGroup(Long idGroupContact, Long idContact);
+	List<Contact> listContactOutsideGroup(Long idGroupContact);
 
-	public List<ContactGroup> listGroupContact();
+	List<Contact> listContactInGroup(Long idGroupContact);
 
-	public ContactGroup getContactGroup(long id);
+	boolean deleteContactFromAllGroup(long idContact);
 
-	public List<ContactGroup> getListContactGroupForOneContact(long id);
+	boolean deleteContactFromGroup(long idGroup, long idContact);
 
-	public List<Contact> listContactInGroup(long idGroup);
-
-	public List<Contact> listContactOutsideGroup(long idGroup);
-
-	public boolean deleteContactFromGroup(long idGroup, long idContact);
-
-	public boolean deleteContactFromAllGroup(long idContact);
-
-	public boolean deleteGroupContact(long idGroup);
-
-	public void generateGroupContact();
-
+	List<ContactGroup> getListContactGroupForOneContact(long id);
 }

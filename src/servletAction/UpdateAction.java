@@ -19,6 +19,9 @@ public class UpdateAction extends Action {
 	public ActionForward execute(final ActionMapping pMapping, ActionForm pForm, final HttpServletRequest pRequest,
 			final HttpServletResponse pResponse) {
 		UpdateContactValidationForm lForm = new UpdateContactValidationForm();
+		if(pRequest.getParameter("id").equals("undefined")) {
+			return pMapping.findForward("error");
+		}
 		final int idt = Integer.parseInt(pRequest.getParameter("id"));
 		ContactService cs = (ContactService) ApplicationContextUtils.getApplicationContext().getBean("ContactService");
 		int numSiret = cs.getNumSiretEntreprise(idt);

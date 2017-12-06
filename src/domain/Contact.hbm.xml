@@ -26,14 +26,14 @@
 		
 		<many-to-one name="address" column="ID_ADDRESS"
 		optimistic-lock="false"
-			class="domain.Address" unique="true" cascade="all-delete-orphan"
+			class="domain.Address" unique="true" cascade="all" 
 			lazy="false" ></many-to-one>
 
-		<set name="profiles" table="phonenumber_table"  lazy="false"  cascade="all-delete-orphan">
+		<set name="profiles" table="phonenumber_table"  lazy="false"  cascade="all">
 			<key column="ID_CONTACT" />
 			<one-to-many class="domain.PhoneNumber" />
 		</set>
-		<set name="books" table="contactsbooks_table" lazy="false" cascade="save-update">
+		<set name="books" table="contactsbooks_table" lazy="false" >
 			<key column="ID_CONTACT" />
 			<many-to-many class="domain.ContactGroup"
 				column="ID_CONTACTGROUP" />

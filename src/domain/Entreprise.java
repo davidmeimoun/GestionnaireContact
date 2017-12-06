@@ -13,6 +13,7 @@ public class Entreprise extends Contact {
 	public Entreprise(String firstname, String lastname, String email, Address address, Set<PhoneNumber> profiles,
 			int numSiret) {
 		super(firstname, lastname, email, address, profiles);
+		this.setType("Entreprise");
 		this.numSiret = numSiret;
 	}
 

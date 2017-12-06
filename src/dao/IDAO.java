@@ -13,4 +13,6 @@ public interface IDAO<T> {
 	boolean update(T object);
 
 	List<T> getList();
+
+	void generate();
 }
