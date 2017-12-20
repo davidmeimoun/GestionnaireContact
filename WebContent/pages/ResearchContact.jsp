@@ -57,7 +57,7 @@
 		</script>
 		<html:base />
 	</head>
-	<body onKeyPress="if (event.keyCode == 13) mafonction()" >
+	<body onKeyPress="if (event.keyCode == 13) mafonction('updateContact')" >
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container">
 				<div class="navbar-header">

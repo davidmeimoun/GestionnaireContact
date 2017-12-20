@@ -10,6 +10,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.hibernate.StaleObjectStateException;
 import org.springframework.orm.hibernate4.HibernateOptimisticLockingFailureException;
 
 import actionForm.UpdateContactValidationForm;
@@ -45,7 +46,6 @@ public class UpdateContactAction extends Action {
 
 		try {
 			if (!cs.versionIsChanged(id, version)) {
-
 				boolean result = cs.update(id, firstName, lastName, email, street, city, zip, country, phoneNumber1,
 						phoneKind1, phoneNumber2, phoneKind2, phoneNumber3, phoneKind3, Integer.parseInt(numSiret));
 				List<Contact> lc = cs.listContact();
@@ -57,6 +57,8 @@ public class UpdateContactAction extends Action {
 					return pMapping.findForward("error");
 				}
 			} else {
+				//StaleObjectStateException a = new StaleObjectStateException("", "");
+				//a.printStackTrace();
 				pRequest.getServletContext().setAttribute("versionChanged", true);
 				ActionRedirect redirect = new ActionRedirect(pMapping.findForward("same"));
 				redirect.addParameter("id", id);
